@@ -1,3 +1,5 @@
+![Laravel Toolkit](laravel_toolkit.png)
+
 # Laravel Toolkit
 
 [![Packagist License](https://img.shields.io/packagist/l/ermradulsharma/laravel-toolkit.svg?style=flat-square)](LICENSE.md)

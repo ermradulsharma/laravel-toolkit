@@ -1,4 +1,6 @@
-<img src="laravel_toolkit.png" alt="Laravel Toolkit" height="500" align="center">
+<p align="center">
+  <img src="laravel_toolkit.png" alt="Laravel Toolkit" height="500">
+</p>
 
 # Laravel Toolkit
 

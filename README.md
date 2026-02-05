@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="laravel_toolkit.png" alt="Laravel Toolkit" height="350" style="width: 100%;">
+  <img src="laravel_toolkit.png" alt="Laravel Toolkit" height="450" style="width: 100%;">
 </p>
 
 # Laravel Toolkit

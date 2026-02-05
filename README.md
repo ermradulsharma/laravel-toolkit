@@ -1,4 +1,4 @@
-![Laravel Toolkit](laravel_toolkit.png)
+<img src="laravel_toolkit.png" alt="Laravel Toolkit" height="500" align="center">
 
 # Laravel Toolkit
 

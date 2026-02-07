@@ -15,7 +15,7 @@ trait ApiResponse
      * @param  int  $code
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function apiSuccess(mixed $data, ?string $message = null, int $code = Response::HTTP_OK): JsonResponse
+    protected function apiSuccess($data, ?string $message = null, int $code = Response::HTTP_OK): JsonResponse
     {
         return response()->json([
             'status'  => 'success',
@@ -32,7 +32,7 @@ trait ApiResponse
      * @param  mixed  $errors
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function apiError(string $message, int $code = Response::HTTP_BAD_REQUEST, mixed $errors = null): JsonResponse
+    protected function apiError(string $message, int $code = Response::HTTP_BAD_REQUEST, $errors = null): JsonResponse
     {
         return response()->json([
             'status'  => 'error',
@@ -58,7 +58,7 @@ trait ApiResponse
      * @param  string|null  $message
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function apiCreated(mixed $data, ?string $message = null): JsonResponse
+    protected function apiCreated($data, ?string $message = null): JsonResponse
     {
         return $this->apiSuccess($data, $message, Response::HTTP_CREATED);
     }

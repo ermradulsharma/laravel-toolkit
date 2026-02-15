@@ -20,6 +20,7 @@ class Health
                 'database'   => static::checkDatabase(),
                 'storage'    => static::checkStorage(),
                 'env'        => static::checkEnv(),
+                'skywalker'  => static::checkPackages(),
                 'php_version' => PHP_VERSION,
             ],
             'timestamp'   => now()->toIso8601String(),
@@ -34,6 +35,27 @@ class Health
     public static function isHealthy(): bool
     {
         return static::checkDatabase() && static::checkStorage();
+    }
+
+    /**
+     * Check for installed Skywalker packages.
+     *
+     * @return array
+     */
+    protected static function checkPackages(): array
+    {
+        $packages = [
+            'Location'   => 'Skywalker\Location\LocationServiceProvider',
+            'LogViewer'  => 'Skywalker\LogViewer\LogViewerServiceProvider',
+            'Entrust'    => 'Skywalker\Entrust\EntrustServiceProvider',
+        ];
+
+        $status = [];
+        foreach ($packages as $name => $class) {
+            $status[$name] = class_exists($class) ? 'installed' : 'missing';
+        }
+
+        return $status;
     }
 
     /**

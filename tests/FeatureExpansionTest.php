@@ -84,9 +84,29 @@ class FeatureExpansionTest extends TestCase
     /** @test */
     public function enum_trait_helpers()
     {
-        $this->assertEquals(['option_one', 'option_two'], TestEnum::values());
-        $this->assertEquals(['OPTION_ONE', 'OPTION_TWO'], TestEnum::names());
-        $this->assertEquals(['option_one' => 'OPTION_ONE', 'option_two' => 'OPTION_TWO'], TestEnum::options());
+        if (PHP_VERSION_ID < 80100) {
+            $this->markTestSkipped('PHP 8.1+ required for Enum tests');
+        }
+
+        // Dynamically define enum to avoid ParseError on PHP < 8.1
+        if (! enum_exists('Skywalker\Support\Tests\TestEnum')) {
+            eval('
+                namespace Skywalker\Support\Tests;
+                use Skywalker\Support\Support\Concerns\Enum;
+                
+                enum TestEnum: string {
+                    use Enum;
+                    case OPTION_ONE = "option_one";
+                    case OPTION_TWO = "option_two";
+                }
+            ');
+        }
+
+        $enumClass = 'Skywalker\Support\Tests\TestEnum';
+
+        $this->assertEquals(['option_one', 'option_two'], $enumClass::values());
+        $this->assertEquals(['OPTION_ONE', 'OPTION_TWO'], $enumClass::names());
+        $this->assertEquals(['option_one' => 'OPTION_ONE', 'option_two' => 'OPTION_TWO'], $enumClass::options());
     }
 }
 
@@ -115,12 +135,4 @@ class TestRepository extends BaseRepository
     {
         return TestModel::class;
     }
-}
-
-enum TestEnum: string
-{
-    use Enum;
-
-    case OPTION_ONE = 'option_one';
-    case OPTION_TWO = 'option_two';
 }

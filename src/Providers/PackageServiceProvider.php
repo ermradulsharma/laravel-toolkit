@@ -144,6 +144,7 @@ abstract class PackageServiceProvider extends ServiceProvider
         $this->registerMacros();
         $this->registerCommands([
             \Skywalker\Support\Console\Commands\DiscoverProject::class,
+            \Skywalker\Support\Console\Commands\MakeDto::class,
         ]);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types=1);
 namespace Skywalker\Support\Tests\Stubs;
 
 use Skywalker\Support\Providers\PackageServiceProvider;
@@ -24,6 +24,13 @@ class TestPackageServiceProvider extends PackageServiceProvider
      */
     protected $package = 'package';
 
+    /**
+     * Package base path.
+     *
+     * @var string
+     */
+    protected $basePath = __DIR__.'/..';
+
     /* -----------------------------------------------------------------
      |  Main Methods
      | -----------------------------------------------------------------
@@ -32,7 +39,7 @@ class TestPackageServiceProvider extends PackageServiceProvider
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
         parent::register();
 
@@ -46,11 +53,9 @@ class TestPackageServiceProvider extends PackageServiceProvider
 
     /**
      * Get config folder.
-     *
-     * @return string
      */
     protected function getConfigFolder(): string
     {
-        return realpath($this->getBasePath() . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'config');
+        return realpath($this->getBasePath().DIRECTORY_SEPARATOR.'fixtures'.DIRECTORY_SEPARATOR.'config');
     }
 }

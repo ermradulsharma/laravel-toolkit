@@ -1,10 +1,11 @@
 <?php
 
-
 namespace Skywalker\Support\Middleware;
 
 use Closure;
-use Illuminate\Http\{JsonResponse, Request, Response};
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * Class     VerifyJsonRequest
@@ -34,9 +35,7 @@ class VerifyJsonRequest
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure                  $next
-     * @param  string|array|null         $methods
-     *
+     * @param  string|array|null  $methods
      * @return mixed
      */
     public function handle(Request $request, Closure $next, $methods = null)
@@ -57,8 +56,7 @@ class VerifyJsonRequest
      * Validate json Request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  string|array|null         $methods
-     *
+     * @param  string|array|null  $methods
      * @return bool
      */
     protected function isJsonRequestValid(Request $request, $methods)
@@ -85,8 +83,8 @@ class VerifyJsonRequest
     protected function jsonErrorResponse()
     {
         $data = [
-            'status'  => 'error',
-            'code'    => $statusCode = Response::HTTP_BAD_REQUEST,
+            'status' => 'error',
+            'code' => $statusCode = Response::HTTP_BAD_REQUEST,
             'message' => 'Request must be JSON',
         ];
 
@@ -97,10 +95,8 @@ class VerifyJsonRequest
      * Get request methods.
      *
      * @param  string|array|null  $methods
-     *
-     * @return array
      */
-    protected function getMethods($methods): array
+    protected function getMethods($methods)
     {
         $methods = $methods ?? $this->methods;
 

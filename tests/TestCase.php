@@ -1,10 +1,10 @@
 <?php
 
-
+declare(strict_types=1);
 namespace Skywalker\Support\Tests;
 
-use Skywalker\Support\Tests\Stubs\RouteServiceProviderWithRouteClasses;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use Skywalker\Support\Tests\Stubs\RouteServiceProviderWithRouteClasses;
 
 /**
  * Class     TestCase
@@ -22,14 +22,12 @@ abstract class TestCase extends BaseTestCase
      * Get package providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     *
-     * @return array
      */
     protected function getPackageProviders($app): array
     {
         return [
             // For Testing
-            RouteServiceProviderWithRouteClasses::class
+            RouteServiceProviderWithRouteClasses::class,
         ];
     }
 
@@ -50,13 +48,9 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * Get fixture path
-     *
-     * @param  string  $path
-     *
-     * @return string
      */
     protected function getFixturesPath(string $path): string
     {
-        return __DIR__ . '/fixtures/' . $path;
+        return __DIR__.'/fixtures/'.$path;
     }
 }

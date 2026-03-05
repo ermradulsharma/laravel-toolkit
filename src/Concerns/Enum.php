@@ -1,48 +1,37 @@
 <?php
 
-namespace Skywalker\Support\Support\Concerns;
-
-use ValueError;
+namespace Skywalker\Support\Concerns;
 
 trait Enum
 {
     /**
      * Get all cases names.
-     *
-     * @return array
      */
-    public static function names(): array
+    public static function names()
     {
         return array_column(self::cases(), 'name');
     }
 
     /**
      * Get all cases values.
-     *
-     * @return array
      */
-    public static function values(): array
+    public static function values()
     {
         return array_column(self::cases(), 'value');
     }
 
     /**
      * Get an associative array of [value => name].
-     *
-     * @return array
      */
-    public static function options(): array
+    public static function options()
     {
         return array_combine(self::values(), self::names());
     }
 
     /**
      * Try to get an Enum instance from a case name (key).
-     *
-     * @param  string  $key
-     * @return static|null
      */
-    public static function tryFromKey(string $key): ?static
+    public static function tryFromKey(string $key)
     {
         foreach (self::cases() as $case) {
             if ($case->name === $key) {

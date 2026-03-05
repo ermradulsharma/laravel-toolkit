@@ -1,6 +1,6 @@
 <?php
 
-namespace Skywalker\Support\Support;
+namespace Skywalker\Support;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -12,18 +12,18 @@ class Health
      *
      * @return array
      */
-    public static function check(): array
+    public static function check()
     {
         return [
-            'status'      => static::isHealthy() ? 'ok' : 'error',
-            'checks'      => [
-                'database'   => static::checkDatabase(),
-                'storage'    => static::checkStorage(),
-                'env'        => static::checkEnv(),
-                'skywalker'  => static::checkPackages(),
+            'status' => static::isHealthy() ? 'ok' : 'error',
+            'checks' => [
+                'database' => static::checkDatabase(),
+                'storage' => static::checkStorage(),
+                'env' => static::checkEnv(),
+                'skywalker' => static::checkPackages(),
                 'php_version' => PHP_VERSION,
             ],
-            'timestamp'   => now()->toIso8601String(),
+            'timestamp' => \Illuminate\Support\Carbon::now()->toIso8601String(),
         ];
     }
 
@@ -32,7 +32,7 @@ class Health
      *
      * @return bool
      */
-    public static function isHealthy(): bool
+    public static function isHealthy()
     {
         return static::checkDatabase() && static::checkStorage();
     }
@@ -42,12 +42,12 @@ class Health
      *
      * @return array
      */
-    protected static function checkPackages(): array
+    protected static function checkPackages()
     {
         $packages = [
-            'Location'   => 'Skywalker\Location\LocationServiceProvider',
-            'LogViewer'  => 'Skywalker\LogViewer\LogViewerServiceProvider',
-            'Entrust'    => 'Skywalker\Entrust\EntrustServiceProvider',
+            'Location' => 'Skywalker\Location\LocationServiceProvider',
+            'LogViewer' => 'Skywalker\LogViewer\LogViewerServiceProvider',
+            'Entrust' => 'Skywalker\Entrust\EntrustServiceProvider',
         ];
 
         $status = [];
@@ -63,10 +63,11 @@ class Health
      *
      * @return bool
      */
-    protected static function checkDatabase(): bool
+    protected static function checkDatabase()
     {
         try {
             DB::connection()->getPdo();
+
             return true;
         } catch (\Exception $e) {
             return false;
@@ -78,7 +79,7 @@ class Health
      *
      * @return bool
      */
-    protected static function checkStorage(): bool
+    protected static function checkStorage()
     {
         return File::isWritable(storage_path());
     }
@@ -88,7 +89,7 @@ class Health
      *
      * @return array
      */
-    protected static function checkEnv(): array
+    protected static function checkEnv()
     {
         $required = ['APP_KEY', 'DB_CONNECTION'];
         $missing = [];
@@ -100,7 +101,7 @@ class Health
         }
 
         return [
-            'status'  => empty($missing) ? 'ok' : 'warning',
+            'status' => empty($missing) ? 'ok' : 'warning',
             'missing' => $missing,
         ];
     }

@@ -1,58 +1,35 @@
 <?php
 
-
+declare(strict_types=1);
 namespace Skywalker\Support\Tests;
 
-use Skywalker\Support\Stub;
 use Illuminate\Support\Str;
+use Skywalker\Support\Filesystem\Stub;
 
-/**
- * Class     StubTest
- *
- * @author   Skywalker <skywalker@example.com>
- */
 class StubTest extends TestCase
 {
-    /* -----------------------------------------------------------------
-     |  Properties
-     | -----------------------------------------------------------------
-     */
-
-    /** @var  \Skywalker\Support\Stub */
+    /** @var \Skywalker\Support\Filesystem\Stub */
     private $stub;
 
-    /* -----------------------------------------------------------------
-     |  Main Methods
-     | -----------------------------------------------------------------
-     */
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
-
-        //
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         unset($this->stub);
 
         parent::tearDown();
     }
 
-    /* -----------------------------------------------------------------
-     |  Tests
-     | -----------------------------------------------------------------
-     */
-
-    /** @test */
-    public function it_can_be_instantiated(): void
+    public function test_stub_is_instantiable(): void
     {
         $this->stub = new Stub(
             $file = $this->getFixturesPath('stubs/composer.stub')
         );
 
-        static::assertInstanceOf(\Skywalker\Support\Stub::class, $this->stub);
+        static::assertInstanceOf(Stub::class, $this->stub);
 
         $fileContent = file_get_contents($file);
 
@@ -60,8 +37,7 @@ class StubTest extends TestCase
         static::assertEquals($fileContent, (string) $this->stub);
     }
 
-    /** @test */
-    public function it_can_create(): void
+    public function test_it_can_create(): void
     {
         Stub::setBasePath(
             $basePath = $this->getFixturesPath('stubs')
@@ -70,12 +46,12 @@ class StubTest extends TestCase
         $this->stub = Stub::create('composer.stub');
 
         $this->stub->replaces([
-            'VENDOR'            => 'skywalker',
-            'PACKAGE'           => 'package',
-            'AUTHOR_NAME'       => 'Skywalker',
-            'AUTHOR_EMAIL'      => 'skywalker@example.com',
-            'MODULE_NAMESPACE'  => Str::studly('skywalker'),
-            'STUDLY_NAME'       => Str::studly('package'),
+            'VENDOR' => 'skywalker',
+            'PACKAGE' => 'package',
+            'AUTHOR_NAME' => 'Skywalker Labs',
+            'AUTHOR_EMAIL' => 'skywalkerlknw@gmail.com',
+            'MODULE_NAMESPACE' => Str::studly('skywalker'),
+            'STUDLY_NAME' => Str::studly('package'),
         ]);
 
         $this->stub->save('composer.json');
@@ -89,8 +65,7 @@ class StubTest extends TestCase
         static::assertEquals(file_get_contents($fixture), $this->stub->render());
     }
 
-    /** @test */
-    public function it_can_set_and_get_base_path(): void
+    public function test_it_can_set_and_get_base_path(): void
     {
         Stub::setBasePath(
             $basePath = $this->getFixturesPath('stubs')
@@ -99,11 +74,10 @@ class StubTest extends TestCase
         static::assertEquals($basePath, Stub::getBasePath());
     }
 
-    /** @test */
-    public function it_can_create_from_path(): void
+    public function test_it_can_create_from_path(): void
     {
         $this->stub = Stub::createFromPath(
-            $path = $this->getFixturesPath('stubs') . '/composer.stub'
+            $path = $this->getFixturesPath('stubs').'/composer.stub'
         );
 
         static::assertEmpty($this->stub->getBasePath());

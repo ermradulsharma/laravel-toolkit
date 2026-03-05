@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types=1);
 namespace Skywalker\Support\Tests\Stubs;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -33,13 +33,11 @@ class DummyFormRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
         return [
-            'name'  => ['required', 'string', 'min:6'],
+            'name' => ['required', 'string', 'min:6'],
             'email' => ['required', 'string', 'email'],
         ];
     }

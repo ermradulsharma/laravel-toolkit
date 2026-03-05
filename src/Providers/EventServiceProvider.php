@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Providers;
 
 use Illuminate\Support\Facades\Event;
@@ -58,12 +57,12 @@ abstract class EventServiceProvider extends ServiceProvider
     {
         foreach ($this->listens() as $event => $listeners) {
             foreach ($listeners as $listener) {
-                Event::listen($event, $listener);
+                Event::$event, $listener);
             }
         }
 
         foreach ($this->subscribe as $subscriber) {
-            Event::subscribe($subscriber);
+            Event::$subscriber);
         }
     }
 

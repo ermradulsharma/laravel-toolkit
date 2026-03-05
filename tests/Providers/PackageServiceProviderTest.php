@@ -1,33 +1,19 @@
 <?php
 
-
+declare(strict_types=1);
 namespace Skywalker\Support\Tests\Providers;
 
 use Skywalker\Support\Exceptions\PackageException;
-use Skywalker\Support\Tests\Stubs\{InvalidPackageServiceProvider, TestPackageServiceProvider};
+use Skywalker\Support\Tests\Stubs\InvalidPackageServiceProvider;
+use Skywalker\Support\Tests\Stubs\TestPackageServiceProvider;
 use Skywalker\Support\Tests\TestCase;
 
-/**
- * Class     PackageServiceProviderTest
- *
- * @author   Skywalker <skywalker@example.com>
- */
 class PackageServiceProviderTest extends TestCase
 {
-    /* -----------------------------------------------------------------
-     |  Properties
-     | -----------------------------------------------------------------
-     */
-
-    /** @var  \Skywalker\Support\Tests\Stubs\TestPackageServiceProvider */
+    /** @var \Skywalker\Support\Tests\Stubs\TestPackageServiceProvider */
     private $provider;
 
-    /* -----------------------------------------------------------------
-     |  Main Methods
-     | -----------------------------------------------------------------
-     */
-
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -36,13 +22,7 @@ class PackageServiceProviderTest extends TestCase
         $this->provider->register();
     }
 
-    /* -----------------------------------------------------------------
-     |  Tests
-     | -----------------------------------------------------------------
-     */
-
-    /** @test */
-    public function it_can_be_instantiated(): void
+    public function test_package_provider_is_instantiable(): void
     {
         $expectations = [
             \Illuminate\Support\ServiceProvider::class,
@@ -56,8 +36,7 @@ class PackageServiceProviderTest extends TestCase
         }
     }
 
-    /** @test */
-    public function it_can_register_config(): void
+    public function test_package_provider_can_register_config(): void
     {
         $config = config('package');
 
@@ -65,8 +44,7 @@ class PackageServiceProviderTest extends TestCase
         static::assertEquals('bar', $config['foo']);
     }
 
-    /** @test */
-    public function it_must_throw_a_package_exception(): void
+    public function test_package_provider_must_throw_a_package_exception(): void
     {
         $this->expectException(PackageException::class);
         $this->expectExceptionMessage('You must specify the vendor/package name.');

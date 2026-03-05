@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Validation;
 
 use Illuminate\Contracts\Validation\Rule as RuleContract;
@@ -36,7 +35,6 @@ abstract class Rule implements RuleContract
      * Set the message that should be used when the rule fails.
      *
      * @param  string|array  $message
-     *
      * @return $this
      */
     public function withMessage($message)
@@ -65,10 +63,8 @@ abstract class Rule implements RuleContract
      * Fail if the validation rule.
      *
      * @param  string|array  $message
-     *
-     * @return bool
      */
-    protected function fail($message): bool
+    protected function fail($message)
     {
         $this->withMessage($message);
 

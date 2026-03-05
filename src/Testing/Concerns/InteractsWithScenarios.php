@@ -2,20 +2,16 @@
 
 namespace Skywalker\Support\Testing\Concerns;
 
-use Illuminate\Support\Collection;
-
 trait InteractsWithScenarios
 {
     /**
      * Create a pre-defined data scenario.
      *
-     * @param  string  $name
-     * @param  array   $attributes
      * @return mixed
      */
-    protected function createScenario(string $name, array $attributes = [])
+    protected function createScenario($name, array $attributes = [])
     {
-        $method = 'scenario' . \Illuminate\Support\Str::studly($name);
+        $method = 'scenario'.\Illuminate\Support\Str::studly($name);
 
         if (method_exists($this, $method)) {
             return $this->{$method}($attributes);
@@ -25,9 +21,8 @@ trait InteractsWithScenarios
     }
 
     /**
-     * Example Scenario: Admin User.
+     * Example Scenario User.
      *
-     * @param  array  $attributes
      * @return mixed
      */
     protected function scenarioAdminUser(array $attributes = [])

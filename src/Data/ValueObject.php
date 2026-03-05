@@ -8,11 +8,8 @@ abstract class ValueObject implements JsonSerializable
 {
     /**
      * Check equality with another Value Object.
-     *
-     * @param  \Skywalker\Support\Data\ValueObject  $object
-     * @return bool
      */
-    public function equals(ValueObject $object): bool
+    public function equals(ValueObject $object)
     {
         if (get_class($this) !== get_class($object)) {
             return false;
@@ -23,10 +20,8 @@ abstract class ValueObject implements JsonSerializable
 
     /**
      * Return string representation.
-     *
-     * @return string
      */
-    abstract public function __toString(): string;
+    abstract public function __toString();
 
     /**
      * Serialize to JSON.

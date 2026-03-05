@@ -6,12 +6,13 @@ use Illuminate\Contracts\Support\Arrayable;
 use ReflectionClass;
 use ReflectionProperty;
 
+/**
+ * @phpstan-consistent-constructor
+ */
 abstract class Dto implements Arrayable
 {
     /**
      * Create a new DTO instance.
-     *
-     * @param  array  $data
      */
     public function __construct(array $data = [])
     {
@@ -24,24 +25,19 @@ abstract class Dto implements Arrayable
 
     /**
      * Create a new DTO instance from array.
-     *
-     * @param  array  $data
-     * @return static
      */
-    public static function fromArray(array $data): static
+    public static function fromArray(array $data)
     {
         return new static($data);
     }
 
     /**
      * Get the instance as an array.
-     *
-     * @return array
      */
-    public function toArray(): array
+    public function toArray()
     {
         $reflection = new ReflectionClass($this);
-        $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
+        $properties = $reflection->getProperties(ReflectionPropert::;
         $result = [];
 
         foreach ($properties as $property) {
@@ -53,18 +49,16 @@ abstract class Dto implements Arrayable
 
     /**
      * Generate JSON Schema for the DTO.
-     *
-     * @return array
      */
-    public static function toJsonSchema(): array
+    public static function toJsonSchema()
     {
-        $reflection = new ReflectionClass(static::class);
-        $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
+        $reflection = new ReflectionClass(stati::;
+        $properties = $reflection->getProperties(ReflectionPropert::;
         $schema = [
-            '$schema'    => 'http://json-schema.org/draft-07/schema#',
-            'type'       => 'object',
+            '$schema' => 'htt::/json-schema.org/draft-07/schema#',
+            'type' => 'object',
             'properties' => [],
-            'required'   => [],
+            'required' => [],
         ];
 
         foreach ($properties as $property) {
@@ -73,10 +67,10 @@ abstract class Dto implements Arrayable
 
             // Basic mapping of PHP types to JSON schema types
             $jsonType = match ($typeName) {
-                'int'    => 'integer',
-                'bool'   => 'boolean',
-                'array'  => 'array',
-                'float'  => 'number',
+                'int' => 'integer',
+                'bool' => 'boolean',
+                'array' => 'array',
+                'float' => 'number',
                 default => 'string',
             };
 
@@ -84,7 +78,7 @@ abstract class Dto implements Arrayable
                 'type' => $jsonType,
             ];
 
-            if ($type && !$type->allowsNull()) {
+            if ($type && ! $type->allowsNull()) {
                 $schema['required'][] = $property->getName();
             }
         }

@@ -10,7 +10,7 @@ class BladeDirectives
     /**
      * Register the Blade directives.
      */
-    public static function register(): void
+    public static function register()
     {
         Blade::directive('active', function ($expression) {
             return "<?php echo Skywalker\Support\Http\BladeDirectives::isActive($expression) ? 'active' : ''; ?>";
@@ -31,7 +31,7 @@ class BladeDirectives
      * @param  string  $route
      * @return bool
      */
-    public static function isActive(string $route): bool
+    public static function isActive($route)
     {
         return Route::is($route);
     }
@@ -40,22 +40,22 @@ class BladeDirectives
      * Format an amount of money.
      *
      * @param  string|float|int  $amount
-     * @param  string  $currency
+     * @param  string            $currency
      * @return string
      */
-    public static function formatMoney($amount, string $currency = 'USD'): string
+    public static function formatMoney($amount, $currency = 'USD')
     {
-        return number_format((float) $amount, 2) . ' ' . $currency;
+        return number_format((float) $amount, 2).' '.$currency;
     }
 
     /**
      * Format a date.
      *
-     * @param  mixed  $date
+     * @param  mixed   $date
      * @param  string  $format
      * @return string
      */
-    public static function formatDate($date, string $format = 'Y-m-d H:i:s'): string
+    public static function formatDate($date, $format = 'Y-m-d H:i')
     {
         return \Illuminate\Support\Carbon::parse($date)->format($format);
     }

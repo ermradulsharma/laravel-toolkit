@@ -2,8 +2,8 @@
 
 namespace Skywalker\Support\Data\ValueObjects;
 
-use Skywalker\Support\Data\ValueObject;
 use InvalidArgumentException;
+use Skywalker\Support\Data\ValueObject;
 
 class Email extends ValueObject
 {
@@ -17,7 +17,6 @@ class Email extends ValueObject
     /**
      * Create a new Email instance.
      *
-     * @param  string  $email
      * @throws \InvalidArgumentException
      */
     public function __construct(string $email)
@@ -31,10 +30,8 @@ class Email extends ValueObject
 
     /**
      * Return string representation.
-     *
-     * @return string
      */
-    public function __toString(): string
+    public function __toString()
     {
         return $this->email;
     }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Providers\Concerns;
 
 /**
@@ -17,20 +16,16 @@ trait HasFactories
 
     /**
      * Get the migrations path.
-     *
-     * @return string
      */
-    protected function getFactoriesPath(): string
+    protected function getFactoriesPath()
     {
-        return $this->getBasePath() . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'factories';
+        return $this->getBasePath().DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'factories';
     }
 
     /**
      * Publish the factories.
-     *
-     * @param  string|null  $path
      */
-    protected function publishFactories(?string $path = null): void
+    protected function publishFactories($path = null)
     {
         $this->publishes([
             $this->getFactoriesPath() => $path ?: database_path('factories'),
@@ -40,7 +35,7 @@ trait HasFactories
     /**
      * Load the factories.
      */
-    protected function loadFactories(): void
+    protected function loadFactories()
     {
         $this->loadFactoriesFrom($this->getFactoriesPath());
     }

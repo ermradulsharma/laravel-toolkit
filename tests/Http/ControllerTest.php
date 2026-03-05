@@ -1,25 +1,15 @@
 <?php
 
-
+declare(strict_types=1);
 namespace Skywalker\Support\Tests\Http;
 
+use Illuminate\Routing\Router;
 use Skywalker\Support\Tests\Stubs\DummyController;
 use Skywalker\Support\Tests\TestCase;
-use Illuminate\Routing\Router;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * Class     ControllerTest
- *
- * @author   Skywalker <skywalker@example.com>
- */
 class ControllerTest extends TestCase
 {
-    /* -----------------------------------------------------------------
-     |  Main Methods
-     | -----------------------------------------------------------------
-     */
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -27,13 +17,7 @@ class ControllerTest extends TestCase
         $this->setupRoutes($this->app['router']);
     }
 
-    /* -----------------------------------------------------------------
-     |  Tests
-     | -----------------------------------------------------------------
-     */
-
-    /** @test */
-    public function it_can_do_dummy_stuff(): void
+    public function test_it_can_do_dummy_stuff(): void
     {
         $response = $this->get(route('dummy::index'))
             ->assertSuccessful();
@@ -46,8 +30,7 @@ class ControllerTest extends TestCase
         static::assertEquals('Super dummy', $response->getContent());
     }
 
-    /** @test */
-    public function it_can_throw_four_o_four_exception(): void
+    public function test_it_can_throw_four_o_four_exception(): void
     {
         $response = $this->get(route('dummy::get', ['not-super']))
             ->assertStatus(404);
@@ -56,11 +39,6 @@ class ControllerTest extends TestCase
         static::assertSame('Super dummy not found !', $response->exception->getMessage());
     }
 
-    /**
-     * Setup the routes.
-     *
-     * @param  \Illuminate\Routing\Router  $router
-     */
     protected function setupRoutes(Router $router): void
     {
         $router->get('dummy', [DummyController::class, 'index'])

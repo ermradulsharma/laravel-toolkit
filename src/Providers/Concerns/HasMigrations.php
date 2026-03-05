@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Providers\Concerns;
 
 /**
@@ -17,30 +16,26 @@ trait HasMigrations
 
     /**
      * Get the migrations path.
-     *
-     * @return string
      */
-    protected function getMigrationsPath(): string
+    protected function getMigrationsPath()
     {
-        return $this->getBasePath() . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'migrations';
+        return $this->getBasePath().DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'migrations';
     }
 
     /**
      * Publish the migration files.
-     *
-     * @param  string|null  $path
      */
-    protected function publishMigrations(?string $path = null): void
+    protected function publishMigrations($path = null)
     {
         $this->publishes([
-            $this->getMigrationsPath() => $path ?: database_path('migrations')
+            $this->getMigrationsPath() => $path ?: database_path('migrations'),
         ], $this->getPublishedTags('migrations'));
     }
 
     /**
      * Load the migrations files.
      */
-    protected function loadMigrations(): void
+    protected function loadMigrations()
     {
         $this->loadMigrationsFrom($this->getMigrationsPath());
     }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Database;
 
 use Illuminate\Database\Eloquent\Model;
@@ -36,15 +35,13 @@ abstract class PrefixedModel extends Model
      */
     public function getTable()
     {
-        return $this->getPrefix() . parent::getTable();
+        return $this->getPrefix().parent::getTable();
     }
 
     /**
      * Get the prefix table associated with the model.
-     *
-     * @return string
      */
-    public function getPrefix(): string
+    public function getPrefix()
     {
         return $this->isPrefixed() ? $this->prefix : '';
     }
@@ -52,7 +49,6 @@ abstract class PrefixedModel extends Model
     /**
      * Set the prefix table associated with the model.
      *
-     * @param  string|null  $prefix
      *
      * @return $this
      */
@@ -70,10 +66,8 @@ abstract class PrefixedModel extends Model
 
     /**
      * Check if table is prefixed.
-     *
-     * @return bool
      */
-    public function isPrefixed(): bool
+    public function isPrefixed()
     {
         return ! is_null($this->prefix);
     }

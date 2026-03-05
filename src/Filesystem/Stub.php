@@ -1,7 +1,6 @@
 <?php
 
-
-namespace Skywalker\Support;
+namespace Skywalker\Support\Filesystem;
 
 /**
  * Class     Stub
@@ -63,12 +62,12 @@ class Stub
      *
      * @return string
      */
-    public function getPath(): string
+    public function getPath()
     {
         $path = $this->path;
 
         if (! empty(static::$basePath)) {
-            $path = static::$basePath . DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
+            $path = static::$basePath.DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
         }
 
         return $path;
@@ -78,10 +77,9 @@ class Stub
      * Set stub path.
      *
      * @param  string  $path
-     *
      * @return $this
      */
-    public function setPath(string $path): self
+    public function setPath($path)
     {
         $this->path = $path;
 
@@ -93,7 +91,7 @@ class Stub
      *
      * @return string|null
      */
-    public static function getBasePath(): ?string
+    public static function getBasePath()
     {
         return static::$basePath;
     }
@@ -103,7 +101,7 @@ class Stub
      *
      * @param  string  $path
      */
-    public static function setBasePath(string $path)
+    public static function setBasePath($path)
     {
         static::$basePath = $path;
     }
@@ -113,7 +111,7 @@ class Stub
      *
      * @return array
      */
-    public function getReplaces(): array
+    public function getReplaces()
     {
         return $this->replaces;
     }
@@ -122,10 +120,9 @@ class Stub
      * Set replacements array.
      *
      * @param  array  $replaces
-     *
      * @return $this
      */
-    public function setReplaces(array $replaces = []): self
+    public function setReplaces(array $replaces = [])
     {
         $this->replaces = $replaces;
 
@@ -136,10 +133,9 @@ class Stub
      * Set replacements array.
      *
      * @param  array  $replaces
-     *
      * @return $this
      */
-    public function replaces(array $replaces = []): self
+    public function replaces(array $replaces = [])
     {
         return $this->setReplaces($replaces);
     }
@@ -154,10 +150,9 @@ class Stub
      *
      * @param  string  $path
      * @param  array   $replaces
-     *
      * @return $this
      */
-    public static function create(string $path, array $replaces = []): self
+    public static function create($path, array $replaces = [])
     {
         return new static($path, $replaces);
     }
@@ -167,13 +162,14 @@ class Stub
      *
      * @param  string  $path
      * @param  array   $replaces
-     *
      * @return $this
      */
-    public static function createFromPath(string $path, array $replaces = []): self
+    public static function createFromPath($path, array $replaces = [])
     {
-        return tap(new static($path, $replaces), function (self $stub) {
-            $stub->setBasePath('');
+        $stub = new static($path, $replaces);
+        
+        return tap($stub, function ($instance) {
+            $instance->setBasePath('');
         });
     }
 
@@ -182,7 +178,7 @@ class Stub
      *
      * @return string
      */
-    public function render(): string
+    public function render()
     {
         return $this->getContents();
     }
@@ -191,12 +187,11 @@ class Stub
      * Save stub to base path.
      *
      * @param  string  $filename
-     *
      * @return bool
      */
-    public function save(string $filename): bool
+    public function save($filename)
     {
-        return $this->saveTo(self::getBasePath(), $filename);
+        return $this->saveTo(static::getBasePath(), $filename);
     }
 
     /**
@@ -204,25 +199,24 @@ class Stub
      *
      * @param  string  $path
      * @param  string  $filename
-     *
      * @return bool
      */
-    public function saveTo(string $path, string $filename): bool
+    public function saveTo($path, $filename)
     {
-        return file_put_contents($path . DIRECTORY_SEPARATOR . $filename, $this->render()) !== false;
+        return file_put_contents($path.DIRECTORY_SEPARATOR.$filename, $this->render()) !== false;
     }
 
     /**
      * Get stub contents.
      *
-     * @return string|mixed
+     * @return string
      */
     public function getContents()
     {
         $contents = file_get_contents($this->getPath());
 
         foreach ($this->getReplaces() as $search => $replace) {
-            $contents = str_replace('$' . strtoupper($search) . '$', $replace, $contents);
+            $contents = str_replace('$'.strtoupper($search).'$', $replace, $contents);
         }
 
         return $contents;
@@ -233,7 +227,7 @@ class Stub
      *
      * @return string
      */
-    public function __toString(): string
+    public function __toString()
     {
         return $this->render();
     }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Providers;
 
 use Illuminate\Contracts\View\Factory as ViewFactory;
@@ -61,15 +60,14 @@ abstract class ViewComposerServiceProvider extends ServiceProvider
      */
     protected function view()
     {
-        return $this->app->make(ViewFactory::class);
+        return $this->app->make(ViewFactor::;
     }
 
     /**
      * Register a view composer event.
      *
-     * @param  array|string     $views
+     * @param  array|string  $views
      * @param  \Closure|string  $callback
-     *
      * @return array
      */
     public function composer($views, $callback)

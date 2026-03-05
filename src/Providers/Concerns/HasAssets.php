@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Providers\Concerns;
 
 /**
@@ -17,33 +16,24 @@ trait HasAssets
 
     /**
      * Get the assets path.
-     *
-     * @return string
      */
-    protected function getAssetsFolder(): string
+    protected function getAssetsFolder()
     {
-        return realpath($this->getBasePath() . DIRECTORY_SEPARATOR . 'assets');
+        return realpath($this->getBasePath().DIRECTORY_SEPARATOR.'assets');
     }
 
     /**
      * Get the assets destination path.
-     *
-     * @return string
      */
-    protected function assetsDestinationPath(): string
+    protected function assetsDestinationPath()
     {
-        return base_path('assets' . DIRECTORY_SEPARATOR . $this->getPackageName());
+        return base_path('assets'.DIRECTORY_SEPARATOR.$this->getPackageName());
     }
-
-    /* -----------------------------------------------------------------
-     |  Getters & Setters
-     | -----------------------------------------------------------------
-     */
 
     /**
      * Publish the assets.
      */
-    protected function publishAssets(): void
+    protected function publishAssets()
     {
         $this->publishes([
             $this->getAssetsFolder() => $this->assetsDestinationPath(),

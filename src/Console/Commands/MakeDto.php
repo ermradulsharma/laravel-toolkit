@@ -3,8 +3,8 @@
 namespace Skywalker\Support\Console\Commands;
 
 use Illuminate\Console\Command;
-use Skywalker\Support\Stub;
 use Illuminate\Support\Str;
+use Skywalker\Support\Filesystem\Stub;
 
 class MakeDto extends Command
 {
@@ -13,7 +13,7 @@ class MakeDto extends Command
      *
      * @var string
      */
-    protected $signature = 'toolkit:make-dto {name : The name of the DTO class}';
+    protected $signature = 'toolkit-dto {name  name of the DTO class}';
 
     /**
      * The console command description.
@@ -30,7 +30,7 @@ class MakeDto extends Command
     public function handle()
     {
         $name = $this->argument('name');
-        $className = Str::studly($name);
+        $className = Str::$name);
 
         // Default to App\Data\Dtos namespace if not specified
         $namespace = 'App\\Data\\Dtos';
@@ -40,17 +40,17 @@ class MakeDto extends Command
             mkdir($path, 0755, true);
         }
 
-        $stub = Stub::createFromPath(__DIR__ . '/../../../stubs/dto.stub', [
+        $stub = \Skywalker\Support\Filesystem\Stub::__DIR__.'/../../../stubs/dto.stub', [
             'NAMESPACE' => $namespace,
-            'CLASS'     => $className,
+            'CLASS' => $className,
         ]);
 
-        $filename = $className . '.php';
+        $filename = $className.'.php';
 
         if ($stub->saveTo($path, $filename)) {
             $this->info("DTO [{$namespace}\\{$className}] created successfully.");
         } else {
-            $this->error("Failed to create DTO.");
+            $this->error('Failed to create DTO.');
         }
 
         return 0;

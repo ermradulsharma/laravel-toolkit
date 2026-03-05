@@ -10,14 +10,14 @@ class StrongPassword implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param  string  $attribute
      * @param  mixed  $value
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param  \Closure(string)  $fail
      */
-    public function validate(string $attribute, $value, Closure $fail): void
+    public function validate($attribute, $value, Closure $fail)
     {
         if (! is_string($value)) {
             $fail('The :attribute must be a string.');
+
             return;
         }
 

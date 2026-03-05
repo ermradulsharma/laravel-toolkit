@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Providers\Concerns;
 
 /**
@@ -17,8 +16,6 @@ trait InteractsWithApplication
 
     /**
      * Register multiple service providers.
-     *
-     * @param  array  $providers
      */
     protected function registerProviders(array $providers)
     {
@@ -31,8 +28,7 @@ trait InteractsWithApplication
      * Register a service provider.
      *
      * @param  \Illuminate\Support\ServiceProvider|string  $provider
-     * @param  bool                                        $force
-     *
+     * @param  bool  $force
      * @return \Illuminate\Support\ServiceProvider
      */
     protected function registerProvider($provider, $force = false)
@@ -44,8 +40,7 @@ trait InteractsWithApplication
      * Register a console service provider.
      *
      * @param  \Illuminate\Support\ServiceProvider|string  $provider
-     * @param  bool                                        $force
-     *
+     * @param  bool  $force
      * @return \Illuminate\Support\ServiceProvider|null
      */
     protected function registerConsoleServiceProvider($provider, $force = false)
@@ -59,8 +54,6 @@ trait InteractsWithApplication
 
     /**
      * Register the package's custom Artisan commands when running in console.
-     *
-     * @param  array  $commands
      */
     protected function registerCommands(array $commands)
     {
@@ -72,9 +65,9 @@ trait InteractsWithApplication
     /**
      * Register a binding with the container.
      *
-     * @param  string                $abstract
+     * @param  string  $abstract
      * @param  \Closure|string|null  $concrete
-     * @param  bool                  $shared
+     * @param  bool  $shared
      */
     protected function bind($abstract, $concrete = null, $shared = false)
     {
@@ -84,7 +77,7 @@ trait InteractsWithApplication
     /**
      * Register a shared binding in the container.
      *
-     * @param  string|array          $abstract
+     * @param  string|array  $abstract
      * @param  \Closure|string|null  $concrete
      */
     protected function singleton($abstract, $concrete = null)

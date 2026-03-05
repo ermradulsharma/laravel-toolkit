@@ -1,19 +1,19 @@
 <?php
 
+declare(strict_types=1);
 namespace Skywalker\Support\Tests;
 
-use Orchestra\Testbench\TestCase;
-use Skywalker\Support\Database\Repository\BaseRepository;
-use Skywalker\Support\Database\Concerns\HasUuid;
-use Skywalker\Support\Database\Concerns\Sluggable;
-use Skywalker\Support\Data\ValueObjects\Email;
-use Skywalker\Support\Database\Casts\JsonCast;
-use Skywalker\Support\Database\Casts\MoneyCast;
-use Skywalker\Support\Support\Concerns\Enum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
+use Orchestra\Testbench\TestCase;
+use Skywalker\Support\Data\ValueObjects\Email;
+use Skywalker\Support\Database\Casts\JsonCast;
+use Skywalker\Support\Database\Casts\MoneyCast;
+use Skywalker\Support\Database\Concerns\HasUuid;
+use Skywalker\Support\Database\Concerns\Sluggable;
+use Skywalker\Support\Database\Repository\BaseRepository;
+use Skywalker\Support\Concerns\Enum;
 
 class FeatureExpansionTest extends TestCase
 {
@@ -31,10 +31,9 @@ class FeatureExpansionTest extends TestCase
         });
     }
 
-    /** @test */
-    public function it_generates_uuid_and_slug()
+    public function test_it_generates_uuid_and_slug(): void
     {
-        $model = new TestModel();
+        $model = new TestModel;
         $model->title = 'Hello World';
         $model->save();
 
@@ -43,10 +42,9 @@ class FeatureExpansionTest extends TestCase
         $this->assertEquals('hello-world', $model->slug);
     }
 
-    /** @test */
-    public function it_casts_json_and_money()
+    public function test_it_casts_json_and_money(): void
     {
-        $model = new TestModel();
+        $model = new TestModel;
         $model->settings = ['theme' => 'dark'];
         $model->price = 10.50; // Sets as 1050
         $model->save();
@@ -58,10 +56,9 @@ class FeatureExpansionTest extends TestCase
         $this->assertEquals(10.50, $model->price);
     }
 
-    /** @test */
-    public function repo_can_create_and_find()
+    public function test_repo_can_create_and_find(): void
     {
-        $repo = new TestRepository();
+        $repo = new TestRepository;
         $model = $repo->create(['title' => 'Repo Item']);
 
         $this->assertNotNull($model);
@@ -71,8 +68,7 @@ class FeatureExpansionTest extends TestCase
         $this->assertEquals($model->id, $found->id);
     }
 
-    /** @test */
-    public function value_object_validates_email()
+    public function test_value_object_validates_email(): void
     {
         $email = new Email('test@example.com');
         $this->assertEquals('test@example.com', (string) $email);
@@ -81,8 +77,7 @@ class FeatureExpansionTest extends TestCase
         new Email('invalid-email');
     }
 
-    /** @test */
-    public function enum_trait_helpers()
+    public function test_enum_trait_helpers(): void
     {
         if (PHP_VERSION_ID < 80100) {
             $this->markTestSkipped('PHP 8.1+ required for Enum tests');
@@ -92,7 +87,7 @@ class FeatureExpansionTest extends TestCase
         if (! enum_exists('Skywalker\Support\Tests\TestEnum')) {
             eval('
                 namespace Skywalker\Support\Tests;
-                use Skywalker\Support\Support\Concerns\Enum;
+                use Skywalker\Support\Concerns\Enum;
                 
                 enum TestEnum: string {
                     use Enum;
@@ -115,12 +110,14 @@ class TestModel extends Model
     use HasUuid, Sluggable;
 
     protected $table = 'test_models';
+
     protected $guarded = [];
+
     public $timestamps = false; // simplify
 
     protected $casts = [
         'settings' => JsonCast::class,
-        'price'    => MoneyCast::class,
+        'price' => MoneyCast::class,
     ];
 
     public function getSlugSource(): string

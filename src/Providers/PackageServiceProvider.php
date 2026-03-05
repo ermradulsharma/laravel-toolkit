@@ -1,22 +1,20 @@
 <?php
 
-
 namespace Skywalker\Support\Providers;
 
-use Skywalker\Support\Exceptions\PackageException;
-use Skywalker\Support\Providers\Concerns\{
-    HasAssets,
-    HasConfig,
-    HasFactories,
-    HasMigrations,
-    HasTranslations,
-    HasViews
-};
-use Skywalker\Support\Http\BladeDirectives;
-use Skywalker\Support\Support\Macros\{CollectionMacros, StringMacros};
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Str;
 use ReflectionClass;
+use Skywalker\Support\Exceptions\PackageException;
+use Skywalker\Support\Http\BladeDirectives;
+use Skywalker\Support\Providers\Concerns\HasAssets;
+use Skywalker\Support\Providers\Concerns\HasConfig;
+use Skywalker\Support\Providers\Concerns\HasFactories;
+use Skywalker\Support\Providers\Concerns\HasMigrations;
+use Skywalker\Support\Providers\Concerns\HasTranslations;
+use Skywalker\Support\Providers\Concerns\HasViews;
+use Skywalker\Support\Macros\CollectionMacros;
+use Skywalker\Support\Macros\StringMacros;
 
 /**
  * Class     PackageServiceProvider
@@ -47,7 +45,7 @@ abstract class PackageServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $vendor = 'ermradulsharma';
+    protected $vendor = 'skywalker-labs';
 
     /**
      * Package name.
@@ -70,14 +68,14 @@ abstract class PackageServiceProvider extends ServiceProvider
 
     /**
      * Create a new service provider instance.
-     *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
      */
     public function __construct(Application $app)
     {
         parent::__construct($app);
 
-        $this->basePath = $this->resolveBasePath();
+        if (is_null($this->basePath)) {
+            $this->basePath = $this->resolveBasePath();
+        }
     }
 
     /**
@@ -110,20 +108,16 @@ abstract class PackageServiceProvider extends ServiceProvider
 
     /**
      * Get the vendor name.
-     *
-     * @return string
      */
-    protected function getVendorName(): string
+    protected function getVendorName()
     {
         return $this->vendor;
     }
 
     /**
      * Get the package name.
-     *
-     * @return string|null
      */
-    protected function getPackageName(): ?string
+    protected function getPackageName()
     {
         return $this->package;
     }
@@ -139,6 +133,10 @@ abstract class PackageServiceProvider extends ServiceProvider
     public function register()
     {
         parent::register();
+
+        $this->app->singleton(\Skywalker\Support\Security\ZeroTrust\TrustEngine::class, function ($app) {
+            return new \Skywalker\Support\Security\ZeroTrust\TrustEngine;
+        });
 
         $this->checkPackageName();
         $this->registerMacros();
@@ -164,7 +162,7 @@ abstract class PackageServiceProvider extends ServiceProvider
     /**
      * Publish all the package files.
      */
-    protected function publishAll(): void
+    protected function publishAll()
     {
         $this->publishAssets();
         $this->publishConfig();
@@ -184,7 +182,7 @@ abstract class PackageServiceProvider extends ServiceProvider
      *
      * @throws \Skywalker\Support\Exceptions\PackageException
      */
-    protected function checkPackageName(): void
+    protected function checkPackageName()
     {
         if (empty($this->getVendorName()) || empty($this->getPackageName())) {
             throw PackageException::unspecifiedName();
@@ -198,24 +196,20 @@ abstract class PackageServiceProvider extends ServiceProvider
 
     /**
      * Get the published tags.
-     *
-     * @param  string  $tag
-     *
-     * @return array
      */
-    protected function getPublishedTags(string $tag): array
+    protected function getPublishedTags($tag)
     {
         $package = $this->getPackageName();
 
         return array_map(function ($name) {
             return Str::slug($name);
-        }, [$this->getVendorName(), $package, $tag, $package . '-' . $tag]);
+        }, [$this->getVendorName(), $package, $tag, $package.'-'.$tag]);
     }
 
     /**
      * Register the package macros.
      */
-    protected function registerMacros(): void
+    protected function registerMacros()
     {
         CollectionMacros::register();
         StringMacros::register();
@@ -224,7 +218,7 @@ abstract class PackageServiceProvider extends ServiceProvider
     /**
      * Register the package blade directives.
      */
-    protected function registerBladeDirectives(): void
+    protected function registerBladeDirectives()
     {
         BladeDirectives::register();
     }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Routing\Concerns;
 
 /**
@@ -17,10 +16,8 @@ trait RegistersRouteClasses
 
     /**
      * Map route classes.
-     *
-     * @param  iterable  $routes
      */
-    protected static function mapRouteClasses(iterable $routes): void
+    protected static function mapRouteClasses(iterable $routes)
     {
         foreach ($routes as $route) {
             if (method_exists($route, 'map')) {
@@ -31,10 +28,8 @@ trait RegistersRouteClasses
 
     /**
      * Bind route classes.
-     *
-     * @param  iterable  $routes
      */
-    protected static function bindRouteClasses(iterable $routes): void
+    protected static function bindRouteClasses(iterable $routes)
     {
         foreach ($routes as $route) {
             if (method_exists($route, 'bindings')) {

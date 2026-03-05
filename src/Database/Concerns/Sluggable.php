@@ -23,20 +23,16 @@ trait Sluggable
 
     /**
      * Get the column to generate slug from.
-     *
-     * @return string
      */
-    public function getSlugSource(): string
+    public function getSlugSource()
     {
         return 'title';
     }
 
     /**
      * Get the column to save slug to.
-     *
-     * @return string
      */
-    public function getSlugField(): string
+    public function getSlugField()
     {
         return 'slug';
     }

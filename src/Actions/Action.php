@@ -2,6 +2,9 @@
 
 namespace Skywalker\Support\Actions;
 
+/**
+ * @phpstan-consistent-constructor
+ */
 abstract class Action
 {
     /**

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Providers\Concerns;
 
 /**
@@ -18,7 +17,7 @@ trait HasTranslations
     /**
      * Get the translations' folder name.
      */
-    protected function getTranslationsFolderName(): string
+    protected function getTranslationsFolderName()
     {
         return 'translations';
     }
@@ -26,25 +25,25 @@ trait HasTranslations
     /**
      * Get the translations' path.
      */
-    protected function getTranslationsPath(): string
+    protected function getTranslationsPath()
     {
-        return $this->getBasePath() . DIRECTORY_SEPARATOR . $this->getTranslationsFolderName();
+        return $this->getBasePath().DIRECTORY_SEPARATOR.$this->getTranslationsFolderName();
     }
 
     /**
      * Get the destination views path.
      */
-    protected function getTranslationsDestinationPath(): string
+    protected function getTranslationsDestinationPath()
     {
         return $this->app->langPath(
-            'vendor' . DIRECTORY_SEPARATOR . $this->getPackageName()
+            'vendor'.DIRECTORY_SEPARATOR.$this->getPackageName()
         );
     }
 
     /**
      * Publish the translations.
      */
-    protected function publishTranslations(?string $path = null): void
+    protected function publishTranslations($path = null)
     {
         $this->publishes([
             $this->getTranslationsPath() => $path ?: $this->getTranslationsDestinationPath(),
@@ -54,7 +53,7 @@ trait HasTranslations
     /**
      * Load the translations files.
      */
-    protected function loadTranslations(): void
+    protected function loadTranslations()
     {
         $packagePath = $this->getTranslationsPath();
         $vendorPath = $this->getTranslationsDestinationPath();

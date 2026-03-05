@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Providers;
 
 /**

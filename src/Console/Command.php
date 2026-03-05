@@ -2,7 +2,6 @@
 
 namespace Skywalker\Support\Console;
 
-use Illuminate\Console\Command as IlluminateCommand;
 use Symfony\Component\Console\Helper\TableSeparator;
 
 /**
@@ -19,10 +18,8 @@ abstract class Command extends \Illuminate\Console\Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    abstract public function handle(): int;
+    abstract public function handle();
 
     /* -----------------------------------------------------------------
      |  Other Methods
@@ -31,24 +28,18 @@ abstract class Command extends \Illuminate\Console\Command
 
     /**
      * Create a new table separator instance.
-     *
-     * @return \Symfony\Component\Console\Helper\TableSeparator
      */
-    protected function tableSeparator(): TableSeparator
+    protected function tableSeparator()
     {
         return new TableSeparator;
     }
 
     /**
      * Display a framed information box.
-     *
-     * @param  string  $text
-     *
-     * @return void
      */
-    protected function frame(string $text): void
+    protected function frame(string $text)
     {
-        $line = '+' . str_repeat('-', strlen($text) + 4) . '+';
+        $line = '+'.str_repeat('-', strlen($text) + 4).'+';
 
         $this->info($line);
         $this->info("|  $text  |");

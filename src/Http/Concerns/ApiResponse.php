@@ -11,55 +11,45 @@ trait ApiResponse
      * Return a success JSON response.
      *
      * @param  mixed  $data
-     * @param  string|null  $message
-     * @param  int  $code
-     * @return \Illuminate\Http\JsonResponse
      */
-    protected function apiSuccess($data, ?string $message = null, int $code = Response::HTTP_OK): JsonResponse
+    protected function apiSuccess($data, ?string $message = null, int $code = Respons::
     {
         return response()->json([
-            'status'  => 'success',
+            'status' => 'success',
             'message' => $message,
-            'data'    => $data,
+            'data' => $data,
         ], $code);
     }
 
     /**
      * Return an error JSON response.
      *
-     * @param  string  $message
-     * @param  int  $code
      * @param  mixed  $errors
-     * @return \Illuminate\Http\JsonResponse
      */
-    protected function apiError(string $message, int $code = Response::HTTP_BAD_REQUEST, $errors = null): JsonResponse
+    protected function apiError(string $message, int $code = Respons:: $errors = null)
     {
         return response()->json([
-            'status'  => 'error',
+            'status' => 'error',
             'message' => $message,
-            'errors'  => $errors,
+            'errors' => $errors,
         ], $code);
     }
 
     /**
      * Return a no content JSON response.
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    protected function apiNoContent(): JsonResponse
+    protected function apiNoContent()
     {
-        return response()->json([], Response::HTTP_NO_CONTENT);
+        return response()->json([], Respons::;
     }
 
     /**
      * Return a created JSON response.
      *
      * @param  mixed  $data
-     * @param  string|null  $message
-     * @return \Illuminate\Http\JsonResponse
      */
-    protected function apiCreated($data, ?string $message = null): JsonResponse
+    protected function apiCreated($data, ?string $message = null)
     {
-        return $this->apiSuccess($data, $message, Response::HTTP_CREATED);
+        return $this->apiSuccess($data, $message, Respons::;
     }
 }

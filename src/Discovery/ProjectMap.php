@@ -2,10 +2,9 @@
 
 namespace Skywalker\Support\Discovery;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\File;
-use ReflectionClass;
 
 class ProjectMap
 {
@@ -14,13 +13,13 @@ class ProjectMap
      *
      * @return array
      */
-    public function generate(): array
+    public function generate()
     {
         return [
-            'routes'  => $this->getRoutes(),
-            'models'  => $this->getModels(),
+            'routes' => $this->getRoutes(),
+            'models' => $this->getModels(),
             'actions' => $this->getActions(),
-            'config'  => $this->getImportantConfigs(),
+            'config' => $this->getImportantConfigs(),
         ];
     }
 
@@ -29,14 +28,14 @@ class ProjectMap
      *
      * @return array
      */
-    protected function getRoutes(): array
+    protected function getRoutes()
     {
         return collect(Route::getRoutes())->map(function ($route) {
             return [
-                'uri'     => $route->uri(),
+                'uri' => $route->uri(),
                 'methods' => $route->methods(),
-                'name'    => $route->getName(),
-                'action'  => $route->getActionName(),
+                'name' => $route->getName(),
+                'action' => $route->getActionName(),
             ];
         })->toArray();
     }
@@ -46,7 +45,7 @@ class ProjectMap
      *
      * @return array
      */
-    protected function getModels(): array
+    protected function getModels()
     {
         $modelPath = app_path('Models');
         if (! File::isDirectory($modelPath)) {
@@ -64,8 +63,8 @@ class ProjectMap
                 $table = $instance->getTable();
 
                 return [
-                    'class'   => $class,
-                    'table'   => $table,
+                    'class' => $class,
+                    'table' => $table,
                     'columns' => Schema::getColumnListing($table),
                 ];
             })
@@ -78,7 +77,7 @@ class ProjectMap
      *
      * @return array
      */
-    protected function getActions(): array
+    protected function getActions()
     {
         $actionPath = app_path('Actions');
         if (! File::isDirectory($actionPath)) {
@@ -98,12 +97,12 @@ class ProjectMap
      *
      * @return array
      */
-    protected function getImportantConfigs(): array
+    protected function getImportantConfigs()
     {
         return [
             'app_name' => config('app.name'),
-            'env'      => config('app.env'),
-            'debug'    => config('app.debug'),
+            'env' => config('app.env'),
+            'debug' => config('app.debug'),
             'timezone' => config('app.timezone'),
         ];
     }
@@ -114,12 +113,13 @@ class ProjectMap
      * @param  \Symfony\Component\Finder\SplFileInfo  $file
      * @return string|null
      */
-    protected function getClassFromFile($file): ?string
+    protected function getClassFromFile($file)
     {
         $contents = file_get_contents($file->getRealPath());
         if (preg_match('/namespace\s+(.+?);/', $contents, $matches)) {
             $namespace = $matches[1];
-            return $namespace . '\\' . str_replace('.php', '', $file->getFilename());
+
+            return $namespace.'\\'.str_replace('.php', '', $file->getFilename());
         }
 
         return null;

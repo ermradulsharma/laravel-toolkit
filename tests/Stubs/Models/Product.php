@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types=1);
 namespace Skywalker\Support\Tests\Stubs\Models;
 
 use Skywalker\Support\Database\PrefixedModel;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Providers\Concerns;
 
 use Illuminate\Support\Str;
@@ -31,39 +30,30 @@ trait HasConfig
 
     /**
      * Get config folder.
-     *
-     * @return string
      */
-    protected function getConfigFolder(): string
+    protected function getConfigFolder()
     {
-        return realpath($this->getBasePath() . DIRECTORY_SEPARATOR . 'config');
+        return realpath($this->getBasePath().DIRECTORY_SEPARATOR.'config');
     }
 
     /**
      * Get config key.
-     *
-     * @param  bool    $withVendor
-     * @param  string  $separator
-     *
-     * @return string
      */
-    protected function getConfigKey(bool $withVendor = false, string $separator = '.'): string
+    protected function getConfigKey($withVendor = false, $separator = '.')
     {
         $package = Str::slug($this->getPackageName());
 
         return $withVendor
-            ? Str::slug($this->getVendorName()) . $separator . $package
+            ? Str::slug($this->getVendorName()).$separator.$package
             : $package;
     }
 
     /**
      * Get config file path.
-     *
-     * @return string
      */
-    protected function getConfigFile(): string
+    protected function getConfigFile()
     {
-        return $this->getConfigFolder() . DIRECTORY_SEPARATOR . "{$this->getPackageName()}.php";
+        return $this->getConfigFolder().DIRECTORY_SEPARATOR."{$this->getPackageName()}.php";
     }
 
     /**
@@ -73,15 +63,13 @@ trait HasConfig
      */
     protected function configFilesPaths()
     {
-        return glob($this->getConfigFolder() . DIRECTORY_SEPARATOR . '*.php');
+        return glob($this->getConfigFolder().DIRECTORY_SEPARATOR.'*.php');
     }
 
     /**
      * Register configs.
-     *
-     * @param  string  $separator
      */
-    protected function registerConfig(string $separator = '.'): void
+    protected function registerConfig($separator = '.')
     {
         $this->multiConfigs
             ? $this->registerMultipleConfigs($separator)
@@ -91,20 +79,18 @@ trait HasConfig
     /**
      * Register a single config file.
      */
-    protected function registerSingleConfig(): void
+    protected function registerSingleConfig()
     {
         $this->mergeConfigFrom($this->getConfigFile(), $this->getConfigKey());
     }
 
     /**
      * Register all package configs.
-     *
-     * @param  string  $separator
      */
-    protected function registerMultipleConfigs(string $separator = '.'): void
+    protected function registerMultipleConfigs($separator = '.')
     {
         foreach ($this->configFilesPaths() as $path) {
-            $key = $this->getConfigKey(true, $separator) . $separator . basename($path, '.php');
+            $key = $this->getConfigKey(true, $separator).$separator.basename($path, '.php');
 
             $this->mergeConfigFrom($path, $key);
         }
@@ -112,10 +98,8 @@ trait HasConfig
 
     /**
      * Publish the config file.
-     *
-     * @param  string|null  $path
      */
-    protected function publishConfig(?string $path = null): void
+    protected function publishConfig($path = null)
     {
         $this->multiConfigs
             ? $this->publishMultipleConfigs()
@@ -124,10 +108,8 @@ trait HasConfig
 
     /**
      * Publish a single config file.
-     *
-     * @param  string|null  $path
      */
-    protected function publishSingleConfig(?string $path = null): void
+    protected function publishSingleConfig($path = null)
     {
         $this->publishes([
             $this->getConfigFile() => $path ?: config_path("{$this->getPackageName()}.php"),
@@ -137,13 +119,13 @@ trait HasConfig
     /**
      * Publish multiple config files.
      */
-    protected function publishMultipleConfigs(): void
+    protected function publishMultipleConfigs()
     {
-        $paths   = [];
+        $paths = [];
         $package = $this->getConfigKey(true, DIRECTORY_SEPARATOR);
 
         foreach ($this->configFilesPaths() as $file) {
-            $paths[$file] = config_path($package . DIRECTORY_SEPARATOR . basename($file));
+            $paths[$file] = config_path($package.DIRECTORY_SEPARATOR.basename($file));
         }
 
         $this->publishes($paths, $this->getPublishedTags('config'));

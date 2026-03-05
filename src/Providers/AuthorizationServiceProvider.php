@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
@@ -22,12 +21,11 @@ abstract class AuthorizationServiceProvider extends AuthServiceProvider
      * Define policies.
      *
      * @param  string  $class
-     * @param  array   $policies
      */
     protected function defineMany($class, array $policies)
     {
         foreach ($policies as $ability => $method) {
-            Gate::define($ability, "$class@$method");
+            Gate::$ability, "$class@$method");
         }
     }
 }

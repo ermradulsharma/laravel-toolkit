@@ -2,15 +2,13 @@
 
 namespace Skywalker\Support\Database\Repository;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Container\Container;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Skywalker\Support\Exceptions\PackageException;
 
 /**
  * Class BaseRepository
- *
- * @package Skywalker\Support\Database\Repository
  */
 abstract class BaseRepository implements RepositoryContract
 {
@@ -32,10 +30,9 @@ abstract class BaseRepository implements RepositoryContract
     /**
      * Resolve the model from the container.
      *
-     * @return \Illuminate\Database\Eloquent\Model
      * @throws \Skywalker\Support\Exceptions\PackageException
      */
-    protected function resolveModel(): Model
+    protected function resolveModel()
     {
         $modelClass = $this->model();
 
@@ -48,39 +45,37 @@ abstract class BaseRepository implements RepositoryContract
 
     /**
      * Specify the model class name.
-     *
-     * @return string
      */
-    abstract public function model(): string;
+    abstract public function model();
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function all(array $columns = ['*']): Collection
+    public function all(array $columns = ['*'])
     {
         return $this->model->all($columns);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function find($id, array $columns = ['*']): ?Model
+    public function find($id, array $columns = ['*'])
     {
         return $this->model->find($id, $columns);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function create(array $data): Model
+    public function create(array $data)
     {
         return $this->model->create($data);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function update($id, array $data): bool
+    public function update($id, array $data)
     {
         $item = $this->find($id);
 
@@ -92,9 +87,9 @@ abstract class BaseRepository implements RepositoryContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function delete($id): bool
+    public function delete($id)
     {
         $item = $this->find($id);
 

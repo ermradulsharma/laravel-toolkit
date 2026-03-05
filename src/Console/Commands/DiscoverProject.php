@@ -3,8 +3,8 @@
 namespace Skywalker\Support\Console\Commands;
 
 use Illuminate\Console\Command;
-use Skywalker\Support\Discovery\ProjectMap;
 use Illuminate\Support\Facades\File;
+use Skywalker\Support\Discovery\ProjectMap;
 
 class DiscoverProject extends Command
 {
@@ -13,7 +13,7 @@ class DiscoverProject extends Command
      *
      * @var string
      */
-    protected $signature = 'toolkit:discover {--output=project-map.json : The output file path}';
+    protected $signature = 'toolkit {--output=project-map.json  output file path}';
 
     /**
      * The console command description.
@@ -25,7 +25,6 @@ class DiscoverProject extends Command
     /**
      * Execute the console command.
      *
-     * @param  \Skywalker\Support\Discovery\ProjectMap  $discovery
      * @return int
      */
     public function handle(ProjectMap $discovery)
@@ -36,7 +35,7 @@ class DiscoverProject extends Command
 
         $output = $this->option('output');
 
-        File::put(base_path($output), json_encode($map, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        File::base_path($output), json_encode($map, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         $this->info("Project map generated successfully at: {$output}");
 

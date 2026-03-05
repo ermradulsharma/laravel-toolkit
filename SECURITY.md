@@ -2,14 +2,14 @@
 
 ## Supported Versions
 
-Only the latest version of this package receives security updates.
+The Skywalker Toolkit is maintained with a highly stable API. We support the major 1.x branch across a wide array of PHP and Laravel releases.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.x     | :white_check_mark: |
+| Version | Supported          | Compatible PHP | Compatible Laravel |
+| ------- | ------------------ | -------------- | ------------------ |
+| 1.x     | :white_check_mark: | 7.0 - 9.0      | 5.5 - 12.x         |
 
 ## Reporting a Vulnerability
 
-If you discover any security related issues, please email <skywalkerlknw@gmail.com> instead of using the issue tracker.
+Security forms the backbone of the Aether Security Suite embedded within this toolkit. If you discover any security related issues or cryptographic vulnerabilities, please email **security@skywalker-labs.com** directly instead of using the public issue tracker.
 
-We will acknowledge your report within 24 hours and keep you informed of our progress throughout the fix and release process.
+We will acknowledge your report within 24 hours, perform a root-cause analysis, and deploy a secure patch simultaneously across legacy and modern branches.

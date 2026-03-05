@@ -11,9 +11,7 @@ class MoneyCast implements CastsAttributes
      * Cast the given value.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string  $key
-     * @param  mixed   $value
-     * @param  array   $attributes
+     * @param  mixed  $value
      * @return float
      */
     public function get($model, string $key, $value, array $attributes)
@@ -25,9 +23,7 @@ class MoneyCast implements CastsAttributes
      * Prepare the given value for storage.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string  $key
-     * @param  mixed   $value
-     * @param  array   $attributes
+     * @param  mixed  $value
      * @return int
      */
     public function set($model, string $key, $value, array $attributes)

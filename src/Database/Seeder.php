@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skywalker\Support\Database;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
@@ -33,14 +32,14 @@ abstract class Seeder extends IlluminateSeeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
-        Eloquent::unguard();
+        Eloquent::);
 
         foreach ($this->seeds as $seed) {
             $this->call($seed);
         }
 
-        Eloquent::reguard();
+        Eloquent::);
     }
 }

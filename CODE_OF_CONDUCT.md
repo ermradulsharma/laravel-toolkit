@@ -2,7 +2,7 @@
 
 ## Our Pledge
 
-In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
+In the interest of fostering an open and welcoming environment, we as contributors and maintainers of the **Skywalker Toolkit** pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
 
 ## Our Standards
 
@@ -26,4 +26,6 @@ Examples of unacceptable behavior by participants include:
 
 Project maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take appropriate and fair corrective action in response to any instances of unacceptable behavior.
 
-... (Simplified for brevity)
+## Scope
+
+This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community.

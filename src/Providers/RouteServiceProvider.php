@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Skywalker\Support\Providers;
 
-use Skywalker\Support\Routing\Concerns\RegistersRouteClasses;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as IlluminateServiceProvider;
+use Skywalker\Support\Routing\Concerns\RegistersRouteClasses;
 
 /**
  * Class     RouteServiceProvider

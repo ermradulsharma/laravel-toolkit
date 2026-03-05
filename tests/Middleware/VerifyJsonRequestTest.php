@@ -1,24 +1,14 @@
 <?php
 
-
+declare(strict_types=1);
 namespace Skywalker\Support\Tests\Middleware;
 
+use Illuminate\Routing\Router;
 use Skywalker\Support\Middleware\VerifyJsonRequest;
 use Skywalker\Support\Tests\TestCase;
-use Illuminate\Routing\Router;
 
-/**
- * Class     VerifyJsonRequestTest
- *
- * @author   Skywalker <skywalker@example.com>
- */
 class VerifyJsonRequestTest extends TestCase
 {
-    /* -----------------------------------------------------------------
-     |  Main Methods
-     | -----------------------------------------------------------------
-     */
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -26,21 +16,14 @@ class VerifyJsonRequestTest extends TestCase
         $this->setupRoutes($this->app['router']);
     }
 
-    /* -----------------------------------------------------------------
-     |  Tests
-     | -----------------------------------------------------------------
-     */
-
-    /** @test */
-    public function it_can_get_json_response(): void
+    public function test_it_can_get_json_response(): void
     {
         $this->json('GET', route('middleware::json.empty'))
             ->assertSuccessful()
             ->assertJson(['status' => 'success']);
     }
 
-    /** @test */
-    public function it_can_pass_json_middleware(): void
+    public function test_it_can_pass_json_middleware(): void
     {
         foreach (['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] as $method) {
             $this->json($method, route('middleware::json.param'))
@@ -49,30 +32,19 @@ class VerifyJsonRequestTest extends TestCase
         }
     }
 
-    /** @test */
-    public function it_cannot_pass_json_middleware(): void
+    public function test_it_cannot_pass_json_middleware(): void
     {
         foreach (['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] as $method) {
             $this->call($method, route('middleware::json.param'))
                 ->assertStatus(400)
                 ->assertJson([
-                    'status'  => 'error',
-                    'code'    => 400,
+                    'status' => 'error',
+                    'code' => 400,
                     'message' => 'Request must be JSON',
                 ]);
         }
     }
 
-    /* -----------------------------------------------------------------
-     |  Other Methods
-     | -----------------------------------------------------------------
-     */
-
-    /**
-     * Setup the routes.
-     *
-     * @param  \Illuminate\Routing\Router  $router
-     */
     private function setupRoutes(Router $router): void
     {
         $router->aliasMiddleware('json', VerifyJsonRequest::class);

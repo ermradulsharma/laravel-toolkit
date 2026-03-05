@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Skywalker\Support\Providers;
 
-use Skywalker\Support\Providers\Concerns\InteractsWithApplication;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
+use Skywalker\Support\Providers\Concerns\InteractsWithApplication;
 
 /**
  * Class     ServiceProvider

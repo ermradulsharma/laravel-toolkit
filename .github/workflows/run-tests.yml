@@ -84,6 +84,9 @@ jobs:
 
             -   name: Install dependencies
                 run: |
+                    if [ "${{ matrix.php }}" = "7.4" ] || [ "${{ matrix.php }}" = "8.0" ] || [ "${{ matrix.php }}" = "8.1" ]; then
+                        composer remove --dev laravel/pint phpstan/phpstan --no-update --no-interaction
+                    fi
                     composer config audit.block-insecure false
                     composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update --dev
                     composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-audit

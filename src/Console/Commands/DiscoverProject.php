@@ -8,19 +8,14 @@ use Skywalker\Support\Discovery\ProjectMap;
 
 class DiscoverProject extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'toolkit {--output=project-map.json  output file path}';
+    protected $signature = 'toolkit:discover {--output=project-map.json : The output file path}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate a structured project map for AI context.';
+    protected $description = 'Generate a structured project map for AI context';
 
     /**
      * Execute the console command.

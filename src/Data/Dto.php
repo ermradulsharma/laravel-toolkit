@@ -37,7 +37,7 @@ abstract class Dto implements Arrayable
     public function toArray()
     {
         $reflection = new ReflectionClass($this);
-        $properties = $reflection->getProperties(ReflectionPropert::;
+        $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
         $result = [];
 
         foreach ($properties as $property) {
@@ -52,10 +52,10 @@ abstract class Dto implements Arrayable
      */
     public static function toJsonSchema()
     {
-        $reflection = new ReflectionClass(stati::;
-        $properties = $reflection->getProperties(ReflectionPropert::;
+        $reflection = new ReflectionClass(static::class);
+        $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
         $schema = [
-            '$schema' => 'htt::/json-schema.org/draft-07/schema#',
+            '$schema' => 'http://json-schema.org/draft-07/schema#',
             'type' => 'object',
             'properties' => [],
             'required' => [],

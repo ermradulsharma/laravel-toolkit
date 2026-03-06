@@ -8,12 +8,7 @@ use Skywalker\Support\Filesystem\Stub;
 
 class MakeDto extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'toolkit-dto {name  name of the DTO class}';
+    protected $signature = 'toolkit:dto {name : The name of the DTO class} {--force : Overwrite the DTO if it already exists}';
 
     /**
      * The console command description.
@@ -22,22 +17,26 @@ class MakeDto extends Command
      */
     protected $description = 'Create a new DTO class';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
         $name = $this->argument('name');
-        $className = Str::studly($name);
+        $className = Str::studly(class_basename($name));
+        $namespace = Str::contains($name, '\\') 
+            ? Str::beforeLast($name, '\\') 
+            : 'App\\Data\\Dtos';
 
-        // Default to App\Data\Dtos namespace if not specified
-        $namespace = 'App\\Data\\Dtos';
-        $path = app_path('Data/Dtos');
+        $path = $this->getPath($namespace);
 
         if (! is_dir($path)) {
             mkdir($path, 0755, true);
+        }
+
+        $filename = $className.'.php';
+        $fullPath = $path.DIRECTORY_SEPARATOR.$filename;
+
+        if (file_exists($fullPath) && ! $this->option('force')) {
+            $this->error("DTO [{$className}] already exists!");
+            return 1;
         }
 
         $stub = \Skywalker\Support\Filesystem\Stub::create(__DIR__.'/../../../stubs/dto.stub', [
@@ -45,14 +44,28 @@ class MakeDto extends Command
             'CLASS' => $className,
         ]);
 
-        $filename = $className.'.php';
-
         if ($stub->saveTo($path, $filename)) {
             $this->info("DTO [{$namespace}\\{$className}] created successfully.");
         } else {
             $this->error('Failed to create DTO.');
+            return 1;
         }
 
         return 0;
+    }
+
+    /**
+     * Get the destination path.
+     *
+     * @param  string  $namespace
+     * @return string
+     */
+    protected function getPath($namespace)
+    {
+        if (Str::startsWith($namespace, 'App\\')) {
+            return app_path(str_replace(['App\\', '\\'], ['', DIRECTORY_SEPARATOR], $namespace));
+        }
+
+        return base_path(str_replace('\\', DIRECTORY_SEPARATOR, $namespace));
     }
 }

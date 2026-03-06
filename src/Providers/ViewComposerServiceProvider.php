@@ -60,7 +60,7 @@ abstract class ViewComposerServiceProvider extends ServiceProvider
      */
     protected function view()
     {
-        return $this->app->make(ViewFactor::;
+        return $this->app->make(ViewFactory::class);
     }
 
     /**

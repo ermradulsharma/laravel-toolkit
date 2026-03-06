@@ -12,7 +12,7 @@ trait ApiResponse
      *
      * @param  mixed  $data
      */
-    protected function apiSuccess($data, ?string $message = null, int $code = Respons::
+    protected function apiSuccess($data, ?string $message = null, int $code = Response::HTTP_OK)
     {
         return response()->json([
             'status' => 'success',
@@ -26,7 +26,7 @@ trait ApiResponse
      *
      * @param  mixed  $errors
      */
-    protected function apiError(string $message, int $code = Respons:: $errors = null)
+    protected function apiError(string $message, int $code = Response::HTTP_BAD_REQUEST, $errors = null)
     {
         return response()->json([
             'status' => 'error',
@@ -40,7 +40,7 @@ trait ApiResponse
      */
     protected function apiNoContent()
     {
-        return response()->json([], Respons::;
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 
     /**
@@ -50,6 +50,6 @@ trait ApiResponse
      */
     protected function apiCreated($data, ?string $message = null)
     {
-        return $this->apiSuccess($data, $message, Respons::;
+        return $this->apiSuccess($data, $message, Response::HTTP_CREATED);
     }
 }

@@ -30,14 +30,19 @@ class ProjectMap
      */
     protected function getRoutes()
     {
-        return collect(Route::getRoutes())->map(function ($route) {
+        $routes = Route::getRoutes();
+
+        // Handle both Array and RouteCollection objects
+        $items = is_array($routes) ? $routes : (method_exists($routes, 'getRoutes') ? $routes->getRoutes() : []);
+
+        return collect($items)->map(function ($route) {
             return [
                 'uri' => $route->uri(),
                 'methods' => $route->methods(),
                 'name' => $route->getName(),
                 'action' => $route->getActionName(),
             ];
-        })->toArray();
+        })->values()->toArray();
     }
 
     /**

@@ -35,7 +35,7 @@ class DiscoverProject extends Command
 
         $output = $this->option('output');
 
-        File::base_path($output), json_encode($map, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        File::put(base_path($output), json_encode($map, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         $this->info("Project map generated successfully at: {$output}");
 

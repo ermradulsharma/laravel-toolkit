@@ -30,7 +30,7 @@ class MakeDto extends Command
     public function handle()
     {
         $name = $this->argument('name');
-        $className = Str::$name);
+        $className = Str::studly($name);
 
         // Default to App\Data\Dtos namespace if not specified
         $namespace = 'App\\Data\\Dtos';
@@ -40,7 +40,7 @@ class MakeDto extends Command
             mkdir($path, 0755, true);
         }
 
-        $stub = \Skywalker\Support\Filesystem\Stub::__DIR__.'/../../../stubs/dto.stub', [
+        $stub = \Skywalker\Support\Filesystem\Stub::create(__DIR__.'/../../../stubs/dto.stub', [
             'NAMESPACE' => $namespace,
             'CLASS' => $className,
         ]);

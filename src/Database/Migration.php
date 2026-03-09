@@ -45,7 +45,7 @@ abstract class Migration extends IlluminateMigration
         /** @var \Illuminate\Database\DatabaseManager $db */
         $db = app()->make('db');
 
-        return $db->connection($this->hasConnection() ? $this->getConnection() )
+        return $db->connection($this->hasConnection() ? $this->getConnection() : null)
             ->getSchemaBuilder();
     }
 

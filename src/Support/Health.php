@@ -1,6 +1,6 @@
 <?php
 
-namespace Skywalker\Support;
+namespace Skywalker\Support\Support;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -10,9 +10,9 @@ class Health
     /**
      * Run a comprehensive health check.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public static function check()
+    public static function check(): array
     {
         return [
             'status' => static::isHealthy() ? 'ok' : 'error',
@@ -32,7 +32,7 @@ class Health
      *
      * @return bool
      */
-    public static function isHealthy()
+    public static function isHealthy(): bool
     {
         return static::checkDatabase() && static::checkStorage();
     }
@@ -40,9 +40,9 @@ class Health
     /**
      * Check for installed Skywalker packages.
      *
-     * @return array
+     * @return array<string, string>
      */
-    protected static function checkPackages()
+    protected static function checkPackages(): array
     {
         $packages = [
             'Location' => 'Skywalker\Location\LocationServiceProvider',
@@ -63,7 +63,7 @@ class Health
      *
      * @return bool
      */
-    protected static function checkDatabase()
+    protected static function checkDatabase(): bool
     {
         try {
             DB::connection()->getPdo();
@@ -79,7 +79,7 @@ class Health
      *
      * @return bool
      */
-    protected static function checkStorage()
+    protected static function checkStorage(): bool
     {
         return File::isWritable(storage_path());
     }
@@ -87,9 +87,9 @@ class Health
     /**
      * Check for required ENV keys.
      *
-     * @return array
+     * @return array{status: string, missing: array<int, string>}
      */
-    protected static function checkEnv()
+    protected static function checkEnv(): array
     {
         $required = ['APP_KEY', 'DB_CONNECTION'];
         $missing = [];

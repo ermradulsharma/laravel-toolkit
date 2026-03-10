@@ -18,6 +18,8 @@ abstract class Command extends \Illuminate\Console\Command
 
     /**
      * Execute the console command.
+     *
+     * @return int|void
      */
     abstract public function handle();
 
@@ -28,16 +30,20 @@ abstract class Command extends \Illuminate\Console\Command
 
     /**
      * Create a new table separator instance.
+     *
+     * @return \Symfony\Component\Console\Helper\TableSeparator
      */
-    protected function tableSeparator()
+    protected function tableSeparator(): TableSeparator
     {
         return new TableSeparator;
     }
 
     /**
      * Display a framed information box.
+     *
+     * @param  string  $text
      */
-    protected function frame(string $text)
+    protected function frame(string $text): void
     {
         $line = '+'.str_repeat('-', strlen($text) + 4).'+';
 

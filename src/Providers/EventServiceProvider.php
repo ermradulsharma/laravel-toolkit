@@ -19,14 +19,14 @@ abstract class EventServiceProvider extends ServiceProvider
     /**
      * The event handler mappings for the application.
      *
-     * @var array
+     * @var array<string, array<int, string>>
      */
     protected $listen = [];
 
     /**
      * The subscriber classes to register.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $subscribe = [];
 
@@ -38,9 +38,9 @@ abstract class EventServiceProvider extends ServiceProvider
     /**
      * Get the events and handlers.
      *
-     * @return array
+     * @return array<string, array<int, string>>
      */
-    public function listens()
+    public function listens(): array
     {
         return $this->listen;
     }
@@ -53,16 +53,16 @@ abstract class EventServiceProvider extends ServiceProvider
     /**
      * Register the application's event listeners.
      */
-    public function boot()
+    public function boot(): void
     {
         foreach ($this->listens() as $event => $listeners) {
             foreach ($listeners as $listener) {
-                Event::$event, $listener);
+                Event::listen($event, $listener);
             }
         }
 
         foreach ($this->subscribe as $subscriber) {
-            Event::$subscriber);
+            Event::subscribe($subscriber);
         }
     }
 

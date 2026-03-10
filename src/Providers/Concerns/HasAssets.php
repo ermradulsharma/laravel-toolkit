@@ -17,23 +17,23 @@ trait HasAssets
     /**
      * Get the assets path.
      */
-    protected function getAssetsFolder()
+    protected function getAssetsFolder(): string
     {
-        return realpath($this->getBasePath().DIRECTORY_SEPARATOR.'assets');
+        return (string) realpath($this->getBasePath().DIRECTORY_SEPARATOR.'assets');
     }
 
     /**
      * Get the assets destination path.
      */
-    protected function assetsDestinationPath()
+    protected function assetsDestinationPath(): string
     {
-        return base_path('assets'.DIRECTORY_SEPARATOR.$this->getPackageName());
+        return base_path('assets'.DIRECTORY_SEPARATOR.((string) $this->getPackageName()));
     }
 
     /**
      * Publish the assets.
      */
-    protected function publishAssets()
+    protected function publishAssets(): void
     {
         $this->publishes([
             $this->getAssetsFolder() => $this->assetsDestinationPath(),

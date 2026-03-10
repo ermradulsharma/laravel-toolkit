@@ -11,9 +11,9 @@ class ProjectMap
     /**
      * Generate the project map.
      *
-     * @return array
+     * @return array{routes: array<int, array<string, mixed>>, models: array<int, array<string, mixed>>, actions: array<int, string|null>, config: array<string, mixed>}
      */
-    public function generate()
+    public function generate(): array
     {
         return [
             'routes' => $this->getRoutes(),
@@ -26,16 +26,20 @@ class ProjectMap
     /**
      * Get all registered routes.
      *
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
-    protected function getRoutes()
+    protected function getRoutes(): array
     {
         $routes = Route::getRoutes();
 
-        // Handle both Array and RouteCollection objects
-        $items = is_array($routes) ? $routes : (method_exists($routes, 'getRoutes') ? $routes->getRoutes() : []);
+        // Get the route collection
+        $items = $routes->getRoutes();
 
-        return collect($items)->map(function ($route) {
+        /** @var \Illuminate\Support\Collection<int, \Illuminate\Routing\Route> $collection */
+        $collection = collect($items);
+
+        /** @var array<int, array<string, mixed>> $result */
+        $result = $collection->map(function (\Illuminate\Routing\Route $route) {
             return [
                 'uri' => $route->uri(),
                 'methods' => $route->methods(),
@@ -43,27 +47,31 @@ class ProjectMap
                 'action' => $route->getActionName(),
             ];
         })->values()->toArray();
+
+        return $result;
     }
 
     /**
      * Discover models and their schemas.
      *
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
-    protected function getModels()
+    protected function getModels(): array
     {
         $modelPath = app_path('Models');
         if (! File::isDirectory($modelPath)) {
             return [];
         }
 
-        return collect(File::allFiles($modelPath))
+        /** @var array<int, array<string, mixed>> $result */
+        $result = collect(File::allFiles($modelPath))
             ->map(function ($file) {
                 $class = $this->getClassFromFile($file);
                 if (! $class || ! is_subclass_of($class, 'Illuminate\Database\Eloquent\Model')) {
                     return null;
                 }
 
+                /** @var \Illuminate\Database\Eloquent\Model $instance */
                 $instance = new $class;
                 $table = $instance->getTable();
 
@@ -74,35 +82,42 @@ class ProjectMap
                 ];
             })
             ->filter()
+            ->values()
             ->toArray();
+
+        return $result;
     }
 
     /**
      * Discover Action classes.
      *
-     * @return array
+     * @return array<int, string|null>
      */
-    protected function getActions()
+    protected function getActions(): array
     {
         $actionPath = app_path('Actions');
         if (! File::isDirectory($actionPath)) {
             return [];
         }
 
-        return collect(File::allFiles($actionPath))
+        /** @var array<int, string|null> $result */
+        $result = collect(File::allFiles($actionPath))
             ->map(function ($file) {
                 return $this->getClassFromFile($file);
             })
             ->filter()
+            ->values()
             ->toArray();
+
+        return $result;
     }
 
     /**
      * Get important configuration keys.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    protected function getImportantConfigs()
+    protected function getImportantConfigs(): array
     {
         return [
             'app_name' => config('app.name'),
@@ -118,9 +133,9 @@ class ProjectMap
      * @param  \Symfony\Component\Finder\SplFileInfo  $file
      * @return string|null
      */
-    protected function getClassFromFile($file)
+    protected function getClassFromFile($file): ?string
     {
-        $contents = file_get_contents($file->getRealPath());
+        $contents = (string) file_get_contents((string) $file->getRealPath());
         if (preg_match('/namespace\s+(.+?);/', $contents, $matches)) {
             $namespace = $matches[1];
 

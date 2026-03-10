@@ -3,11 +3,12 @@
 # 🧱 Skywalker Toolkit
 ### *The Universal Architectural Foundation for Elite Laravel Engineering*
 
-[![Latest Version](https://img.shields.io/badge/version-1.4.0-darkgray.svg?style=for-the-badge)](https://packagist.org/packages/skywalker-labs/toolkit)
+[![Latest Version](https://img.shields.io/badge/version-1.5.0-darkgray.svg?style=for-the-badge)](https://packagist.org/packages/skywalker-labs/toolkit)
 [![Laravel Version](https://img.shields.io/badge/Laravel-5.5_--_12.x-red.svg?style=for-the-badge)](https://laravel.com)
-[![PHP Version](https://img.shields.io/badge/PHP-7.0_--_9.0-777bb4.svg?style=for-the-badge)](https://php.net)
+[![PHP Version](https://img.shields.io/badge/PHP-7.4_--_9.0-777bb4.svg?style=for-the-badge)](https://php.net)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/skywalker-labs/toolkit/tests.yml?branch=main&style=for-the-badge)](https://github.com/skywalker-labs/toolkit/actions)
 [![Pattern](https://img.shields.io/badge/Pattern-Clean_Architecture-blue.svg?style=for-the-badge)](https://github.com/skywalker-labs/toolkit)
+[![PHPStan](https://img.shields.io/badge/PHPStan-Level_9-brightgreen.svg?style=for-the-badge)](https://github.com/skywalker-labs/toolkit)
 
 ---
 
@@ -23,18 +24,18 @@ The Toolkit is engineered to be a drop-in foundation that *just works*. No stric
 
 ## 🏗️ The Core Pillars
 
-### 1. Unified API Standard (`ApiResponse`)
-Ensure every microservice speaks the same language. The `ApiResponse` trait provides standardized JSON structures for elite front-end consumption.
+### 1. Robust Foundation Classes
+Design complex systems with a consistent base. Use `Action`, `Dto`, and `Service` to enforce clean boundaries.
 
 ```php
-use Skywalker\Support\Http\Concerns\ApiResponse;
+use Skywalker\Support\Foundation\Service;
 
-class UserController extends Controller {
-    use ApiResponse;
-
-    public function show($id) {
-        $user = User::find($id);
-        return $this->apiSuccess($user, "User profile retrieved");
+class UserRegistrationService extends Service {
+    public function register(array $data): array {
+        return $this->transaction(function() use ($data) {
+             // Registration logic...
+             return ['status' => 'success'];
+        });
     }
 }
 ```
@@ -90,11 +91,12 @@ class Processor {
 ```
 
 ### 5. Enterprise Security Foundation
-The **Aether Security Suite** provides the bedrock for all Skywalker security packages. It includes a universal Zero-Trust engine and blockchain-verified auditing.
+The **Aether Security Suite** provides the bedrock for all Skywalker security packages. It includes a universal Zero-Trust engine and strictly typed validation protocols.
 
 ```php
-// Powered by Skywalker\Toolkit\Security\Blockchain\ChainedAuditTrait
-$log->verifyIntegrity(); // Returns true if the cryptographic chain is intact
+use Skywalker\Support\Security\ZeroTrust\TrustEngine;
+
+$score = TrustEngine::calculateScore($user); // Returns a float security score
 ```
 
 ## 🛠️ Developmental Standards
@@ -116,6 +118,15 @@ use Skywalker\Support\ProjectMap;
 $status = Health::check();
 $packages = ProjectMap::discover();
 ```
+
+## 📄 Documentation Suite
+
+- [Changelog](CHANGELOG.md) - Stay updated with the latest releases.
+- [Contributing](CONTRIBUTING.md) - Guidelines for elite contributions.
+- [Security](SECURITY.md) - Reporting vulnerabilities correctly.
+- [License](LICENSE.md) - MIT Open Source License.
+- [Maintainers](MAINTAINERS.md) - The team behind the foundation.
+- [Code of Conduct](CODE_OF_CONDUCT.md) - Our community standards.
 
 ---
 

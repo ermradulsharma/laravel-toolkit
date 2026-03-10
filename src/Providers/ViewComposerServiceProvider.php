@@ -19,7 +19,7 @@ abstract class ViewComposerServiceProvider extends ServiceProvider
     /**
      * Register the composer classes.
      *
-     * @var array
+     * @var array<string, string|class-string>
      */
     protected $composerClasses = [
         // 'view-name' => 'class'
@@ -33,7 +33,7 @@ abstract class ViewComposerServiceProvider extends ServiceProvider
     /**
      * Boot the view composer service provider.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerComposerClasses();
     }
@@ -41,7 +41,7 @@ abstract class ViewComposerServiceProvider extends ServiceProvider
     /**
      * Register the view composer classes.
      */
-    protected function registerComposerClasses()
+    protected function registerComposerClasses(): void
     {
         foreach ($this->composerClasses as $view => $class) {
             $this->composer($view, $class);
@@ -58,7 +58,7 @@ abstract class ViewComposerServiceProvider extends ServiceProvider
      *
      * @return \Illuminate\Contracts\View\Factory
      */
-    protected function view()
+    protected function view(): ViewFactory
     {
         return $this->app->make(ViewFactory::class);
     }
@@ -66,11 +66,11 @@ abstract class ViewComposerServiceProvider extends ServiceProvider
     /**
      * Register a view composer event.
      *
-     * @param  array|string  $views
+     * @param  array<int, string>|string  $views
      * @param  \Closure|string  $callback
-     * @return array
+     * @return array<int, mixed>
      */
-    public function composer($views, $callback)
+    public function composer($views, $callback): array
     {
         return $this->view()->composer($views, $callback);
     }

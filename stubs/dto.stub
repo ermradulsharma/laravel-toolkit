@@ -2,7 +2,7 @@
 
 namespace $NAMESPACE$;
 
-use Skywalker\Support\Data\Dto;
+use Skywalker\Support\Foundation\Dto;
 
 class $CLASS$ extends Dto
 {

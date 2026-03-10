@@ -1,6 +1,6 @@
 <?php
 
-namespace Skywalker\Support\Actions;
+namespace Skywalker\Support\Foundation;
 
 /**
  * @phpstan-consistent-constructor

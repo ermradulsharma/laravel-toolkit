@@ -10,18 +10,18 @@ class BladeDirectives
     /**
      * Register the Blade directives.
      */
-    public static function register()
+    public static function register(): void
     {
         Blade::directive('active', function ($expression) {
-            return "<?php echo Skywalker\Support\Http\BladeDirectives::isActive($expression) ? 'active' : ''; ?>";
+            return "<?php echo e(Skywalker\Support\Http\BladeDirectives::isActive($expression) ? 'active' : ''); ?>";
         });
 
         Blade::directive('money', function ($expression) {
-            return "<?php echo Skywalker\Support\Http\BladeDirectives::formatMoney($expression); ?>";
+            return "<?php echo e(Skywalker\Support\Http\BladeDirectives::formatMoney($expression)); ?>";
         });
 
         Blade::directive('date', function ($expression) {
-            return "<?php echo Skywalker\Support\Http\BladeDirectives::formatDate($expression); ?>";
+            return "<?php echo e(Skywalker\Support\Http\BladeDirectives::formatDate($expression)); ?>";
         });
     }
 
@@ -31,16 +31,16 @@ class BladeDirectives
      * @param  string  $route
      * @return bool
      */
-    public static function isActive($route)
+    public static function isActive($route): bool
     {
-        return Route::is($route);
+        return Route::is((string) $route);
     }
 
     /**
      * Format an amount of money.
      *
      * @param  string|float|int  $amount
-     * @param  string            $currency
+     * @param  string  $currency
      * @return string
      */
     public static function formatMoney($amount, $currency = 'USD')
@@ -51,12 +51,19 @@ class BladeDirectives
     /**
      * Format a date.
      *
-     * @param  mixed   $date
+     * @param  mixed  $date
      * @param  string  $format
      * @return string
      */
-    public static function formatDate($date, $format = 'Y-m-d H:i')
+    public static function formatDate($date, string $format = 'Y-m-d H:i'): string
     {
-        return \Illuminate\Support\Carbon::parse($date)->format($format);
+        if (is_null($date)) {
+            return '';
+        }
+
+        /** @var \DateTimeInterface|float|int|string|null $parsedDate */
+        $parsedDate = (is_string($date) || is_numeric($date) || $date instanceof \DateTimeInterface) ? $date : null;
+
+        return \Illuminate\Support\Carbon::parse($parsedDate)->format($format);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Skywalker\Support\Tests;
 
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;

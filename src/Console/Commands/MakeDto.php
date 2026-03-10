@@ -4,7 +4,6 @@ namespace Skywalker\Support\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Skywalker\Support\Filesystem\Stub;
 
 class MakeDto extends Command
 {
@@ -17,13 +16,14 @@ class MakeDto extends Command
      */
     protected $description = 'Create a new DTO class';
 
-    public function handle()
+    public function handle(): int
     {
-        $name = $this->argument('name');
+        /** @phpstan-ignore-next-line */
+        $name = (string) $this->argument('name');
         $className = Str::studly(class_basename($name));
-        $namespace = Str::contains($name, '\\') 
-            ? Str::beforeLast($name, '\\') 
-            : 'App\\Data\\Dtos';
+        $namespace = (string) (Str::contains($name, '\\')
+            ? Str::beforeLast($name, '\\')
+            : 'App\\Data\\Dtos');
 
         $path = $this->getPath($namespace);
 
@@ -36,6 +36,7 @@ class MakeDto extends Command
 
         if (file_exists($fullPath) && ! $this->option('force')) {
             $this->error("DTO [{$className}] already exists!");
+
             return 1;
         }
 
@@ -48,6 +49,7 @@ class MakeDto extends Command
             $this->info("DTO [{$namespace}\\{$className}] created successfully.");
         } else {
             $this->error('Failed to create DTO.');
+
             return 1;
         }
 

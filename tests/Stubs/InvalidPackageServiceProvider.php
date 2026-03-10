@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Skywalker\Support\Tests\Stubs;
 
 use Skywalker\Support\Providers\PackageServiceProvider;
@@ -13,6 +14,7 @@ use Skywalker\Support\Providers\PackageServiceProvider;
 class InvalidPackageServiceProvider extends PackageServiceProvider
 {
     protected $vendor = '';
+
     protected $package = '';
 
     /**

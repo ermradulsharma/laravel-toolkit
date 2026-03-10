@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Skywalker\Support\Tests\Stubs;
 
 use Skywalker\Support\Providers\PackageServiceProvider;

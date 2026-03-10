@@ -31,17 +31,21 @@ trait HasConfig
     /**
      * Get config folder.
      */
-    protected function getConfigFolder()
+    protected function getConfigFolder(): string
     {
-        return realpath($this->getBasePath().DIRECTORY_SEPARATOR.'config');
+        return (string) realpath($this->getBasePath().DIRECTORY_SEPARATOR.'config');
     }
 
     /**
      * Get config key.
+     *
+     * @param  bool  $withVendor
+     * @param  string  $separator
+     * @return string
      */
-    protected function getConfigKey($withVendor = false, $separator = '.')
+    protected function getConfigKey(bool $withVendor = false, string $separator = '.'): string
     {
-        $package = Str::slug($this->getPackageName());
+        $package = Str::slug((string) $this->getPackageName());
 
         return $withVendor
             ? Str::slug($this->getVendorName()).$separator.$package
@@ -51,7 +55,7 @@ trait HasConfig
     /**
      * Get config file path.
      */
-    protected function getConfigFile()
+    protected function getConfigFile(): string
     {
         return $this->getConfigFolder().DIRECTORY_SEPARATOR."{$this->getPackageName()}.php";
     }
@@ -59,17 +63,21 @@ trait HasConfig
     /**
      * Get the config files (paths).
      *
-     * @return array|false
+     * @return array<int, string>
      */
-    protected function configFilesPaths()
+    protected function configFilesPaths(): array
     {
-        return glob($this->getConfigFolder().DIRECTORY_SEPARATOR.'*.php');
+        $files = glob($this->getConfigFolder().DIRECTORY_SEPARATOR.'*.php');
+
+        return is_array($files) ? $files : [];
     }
 
     /**
      * Register configs.
+     *
+     * @param  string  $separator
      */
-    protected function registerConfig($separator = '.')
+    protected function registerConfig(string $separator = '.'): void
     {
         $this->multiConfigs
             ? $this->registerMultipleConfigs($separator)
@@ -79,15 +87,17 @@ trait HasConfig
     /**
      * Register a single config file.
      */
-    protected function registerSingleConfig()
+    protected function registerSingleConfig(): void
     {
         $this->mergeConfigFrom($this->getConfigFile(), $this->getConfigKey());
     }
 
     /**
      * Register all package configs.
+     *
+     * @param  string  $separator
      */
-    protected function registerMultipleConfigs($separator = '.')
+    protected function registerMultipleConfigs(string $separator = '.'): void
     {
         foreach ($this->configFilesPaths() as $path) {
             $key = $this->getConfigKey(true, $separator).$separator.basename($path, '.php');
@@ -98,8 +108,10 @@ trait HasConfig
 
     /**
      * Publish the config file.
+     *
+     * @param  string|null  $path
      */
-    protected function publishConfig($path = null)
+    protected function publishConfig(?string $path = null): void
     {
         $this->multiConfigs
             ? $this->publishMultipleConfigs()
@@ -108,8 +120,10 @@ trait HasConfig
 
     /**
      * Publish a single config file.
+     *
+     * @param  string|null  $path
      */
-    protected function publishSingleConfig($path = null)
+    protected function publishSingleConfig(?string $path = null): void
     {
         $this->publishes([
             $this->getConfigFile() => $path ?: config_path("{$this->getPackageName()}.php"),
@@ -119,7 +133,7 @@ trait HasConfig
     /**
      * Publish multiple config files.
      */
-    protected function publishMultipleConfigs()
+    protected function publishMultipleConfigs(): void
     {
         $paths = [];
         $package = $this->getConfigKey(true, DIRECTORY_SEPARATOR);

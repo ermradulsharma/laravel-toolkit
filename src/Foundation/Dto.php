@@ -1,18 +1,21 @@
 <?php
 
-namespace Skywalker\Support\Data;
+namespace Skywalker\Support\Foundation;
 
 use Illuminate\Contracts\Support\Arrayable;
 use ReflectionClass;
 use ReflectionProperty;
 
 /**
+ * @implements Arrayable<string, mixed>
  * @phpstan-consistent-constructor
  */
 abstract class Dto implements Arrayable
 {
     /**
      * Create a new DTO instance.
+     *
+     * @param  array<string, mixed>  $data
      */
     public function __construct(array $data = [])
     {
@@ -25,16 +28,21 @@ abstract class Dto implements Arrayable
 
     /**
      * Create a new DTO instance from array.
+     *
+     * @param  array<string, mixed>  $data
+     * @return static
      */
-    public static function fromArray(array $data)
+    public static function fromArray(array $data): self
     {
         return new static($data);
     }
 
     /**
      * Get the instance as an array.
+     *
+     * @return array<string, mixed>
      */
-    public function toArray()
+    public function toArray(): array
     {
         $reflection = new ReflectionClass($this);
         $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
@@ -49,8 +57,10 @@ abstract class Dto implements Arrayable
 
     /**
      * Generate JSON Schema for the DTO.
+     *
+     * @return array<string, mixed>
      */
-    public static function toJsonSchema()
+    public static function toJsonSchema(): array
     {
         $reflection = new ReflectionClass(static::class);
         $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
@@ -63,7 +73,7 @@ abstract class Dto implements Arrayable
 
         foreach ($properties as $property) {
             $type = $property->getType();
-            $typeName = $type ? $type->getName() : 'string';
+            $typeName = ($type instanceof \ReflectionNamedType) ? $type->getName() : 'string';
 
             // Basic mapping of PHP types to JSON schema types
             $jsonType = match ($typeName) {
@@ -78,7 +88,7 @@ abstract class Dto implements Arrayable
                 'type' => $jsonType,
             ];
 
-            if ($type && ! $type->allowsNull()) {
+            if ($type instanceof \ReflectionNamedType && ! $type->allowsNull()) {
                 $schema['required'][] = $property->getName();
             }
         }

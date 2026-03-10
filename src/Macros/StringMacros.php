@@ -9,7 +9,7 @@ class StringMacros
     /**
      * Register the macros.
      */
-    public static function register()
+    public static function register(): void
     {
         if (Str::hasMacro('isBase64')) {
             return;

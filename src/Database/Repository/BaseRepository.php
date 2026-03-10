@@ -3,7 +3,6 @@
 namespace Skywalker\Support\Database\Repository;
 
 use Illuminate\Container\Container;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Skywalker\Support\Exceptions\PackageException;
 
@@ -30,56 +29,67 @@ abstract class BaseRepository implements RepositoryContract
     /**
      * Resolve the model from the container.
      *
+     * @return \Illuminate\Database\Eloquent\Model
+     *
      * @throws \Skywalker\Support\Exceptions\PackageException
      */
-    protected function resolveModel()
+    protected function resolveModel(): Model
     {
+        /** @var class-string<\Illuminate\Database\Eloquent\Model> $modelClass */
         $modelClass = $this->model();
 
         if (! class_exists($modelClass)) {
             throw new PackageException("Class {$modelClass} does not exist.");
         }
 
-        return Container::getInstance()->make($modelClass);
+        /** @var \Illuminate\Database\Eloquent\Model $instance */
+        $instance = Container::getInstance()->make($modelClass);
+
+        return $instance;
     }
 
     /**
      * Specify the model class name.
+     *
+     * @return class-string<\Illuminate\Database\Eloquent\Model>
      */
-    abstract public function model();
+    abstract public function model(): string;
 
     /**
      * {@inheritDoc}
      */
-    public function all(array $columns = ['*'])
+    public function all(array $columns = ['*']): \Illuminate\Database\Eloquent\Collection
     {
-        return $this->model->all($columns);
+        return $this->model->newQuery()->get($columns);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function find($id, array $columns = ['*'])
+    public function find($id, array $columns = ['*']): ?Model
     {
-        return $this->model->find($id, $columns);
+        /** @var Model|null $result */
+        $result = $this->model->newQuery()->find($id, $columns);
+
+        return $result;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function create(array $data)
+    public function create(array $data): Model
     {
-        return $this->model->create($data);
+        return $this->model->newQuery()->create($data);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function update($id, array $data)
+    public function update($id, array $data): bool
     {
         $item = $this->find($id);
 
-        if ($item) {
+        if ($item instanceof Model) {
             return $item->update($data);
         }
 
@@ -89,11 +99,11 @@ abstract class BaseRepository implements RepositoryContract
     /**
      * {@inheritDoc}
      */
-    public function delete($id)
+    public function delete($id): ?bool
     {
         $item = $this->find($id);
 
-        if ($item) {
+        if ($item instanceof Model) {
             return $item->delete();
         }
 

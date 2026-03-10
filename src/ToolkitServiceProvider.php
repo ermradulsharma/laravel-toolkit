@@ -24,4 +24,13 @@ class ToolkitServiceProvider extends PackageServiceProvider
      * @var string
      */
     protected $package = 'toolkit';
+
+    /**
+     * Aliases.
+     *
+     * @var array<string, class-string>
+     */
+    protected $aliases = [
+        'Health' => \Skywalker\Support\Support\Health::class,
+    ];
 }

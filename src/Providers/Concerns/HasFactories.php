@@ -17,7 +17,7 @@ trait HasFactories
     /**
      * Get the migrations path.
      */
-    protected function getFactoriesPath()
+    protected function getFactoriesPath(): string
     {
         return $this->getBasePath().DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'factories';
     }
@@ -25,7 +25,7 @@ trait HasFactories
     /**
      * Publish the factories.
      */
-    protected function publishFactories($path = null)
+    protected function publishFactories(?string $path = null): void
     {
         $this->publishes([
             $this->getFactoriesPath() => $path ?: database_path('factories'),
@@ -35,7 +35,7 @@ trait HasFactories
     /**
      * Load the factories.
      */
-    protected function loadFactories()
+    protected function loadFactories(): void
     {
         $this->loadFactoriesFrom($this->getFactoriesPath());
     }

@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Skywalker\Support\Tests;
 
 use Orchestra\Testbench\TestCase as BaseTestCase;

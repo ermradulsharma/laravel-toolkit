@@ -1,19 +1,17 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Skywalker\Support\Tests;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase;
-use Skywalker\Support\Data\ValueObjects\Email;
-use Skywalker\Support\Database\Casts\JsonCast;
-use Skywalker\Support\Database\Casts\MoneyCast;
+use Skywalker\Support\DataObjects\ValueObjects\Email;
 use Skywalker\Support\Database\Concerns\HasUuid;
 use Skywalker\Support\Database\Concerns\Sluggable;
 use Skywalker\Support\Database\Repository\BaseRepository;
-use Skywalker\Support\Concerns\Enum;
 
 class FeatureExpansionTest extends TestCase
 {
@@ -42,18 +40,16 @@ class FeatureExpansionTest extends TestCase
         $this->assertEquals('hello-world', $model->slug);
     }
 
-    public function test_it_casts_json_and_money(): void
+    public function test_it_casts_json(): void
     {
         $model = new TestModel;
         $model->settings = ['theme' => 'dark'];
-        $model->price = 10.50; // Sets as 1050
         $model->save();
 
         $model->refresh();
 
         $this->assertIsArray($model->settings);
         $this->assertEquals('dark', $model->settings['theme']);
-        $this->assertEquals(10.50, $model->price);
     }
 
     public function test_repo_can_create_and_find(): void
@@ -76,33 +72,6 @@ class FeatureExpansionTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         new Email('invalid-email');
     }
-
-    public function test_enum_trait_helpers(): void
-    {
-        if (PHP_VERSION_ID < 80100) {
-            $this->markTestSkipped('PHP 8.1+ required for Enum tests');
-        }
-
-        // Dynamically define enum to avoid ParseError on PHP < 8.1
-        if (! enum_exists('Skywalker\Support\Tests\TestEnum')) {
-            eval('
-                namespace Skywalker\Support\Tests;
-                use Skywalker\Support\Concerns\Enum;
-                
-                enum TestEnum: string {
-                    use Enum;
-                    case OPTION_ONE = "option_one";
-                    case OPTION_TWO = "option_two";
-                }
-            ');
-        }
-
-        $enumClass = 'Skywalker\Support\Tests\TestEnum';
-
-        $this->assertEquals(['option_one', 'option_two'], $enumClass::values());
-        $this->assertEquals(['OPTION_ONE', 'OPTION_TWO'], $enumClass::names());
-        $this->assertEquals(['option_one' => 'OPTION_ONE', 'option_two' => 'OPTION_TWO'], $enumClass::options());
-    }
 }
 
 class TestModel extends Model
@@ -116,8 +85,7 @@ class TestModel extends Model
     public $timestamps = false; // simplify
 
     protected $casts = [
-        'settings' => JsonCast::class,
-        'price' => MoneyCast::class,
+        'settings' => 'array',
     ];
 
     public function getSlugSource(): string

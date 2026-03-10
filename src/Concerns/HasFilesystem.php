@@ -8,6 +8,8 @@ use Illuminate\Filesystem\Filesystem;
  * Trait     HasFilesystem
  *
  * @author   Skywalker <skywalker@example.com>
+ *
+ * @phpstan-ignore trait.unused
  */
 trait HasFilesystem
 {

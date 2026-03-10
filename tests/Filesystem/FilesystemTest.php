@@ -1,11 +1,12 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Skywalker\Support\Tests\Filesystem;
 
 use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
-use Skywalker\Support\Filesystem\Filesystem;
 use Skywalker\Support\Concerns\HasFilesystem;
+use Skywalker\Support\Filesystem\Filesystem;
 use Skywalker\Support\Tests\TestCase;
 
 class FilesystemTest extends TestCase

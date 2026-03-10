@@ -12,11 +12,12 @@ class TrustEngine
      * Calculate the trust score for a given user or request context.
      *
      * @param  mixed  $user
-     * @param  array  $options
+     * @param  array<string, mixed>  $options
      * @return float Score between 0.0 and 1.0
      */
-    public function calculateScore($user, array $options = [])
+    public function calculateScore($user, array $options = []): float
     {
+        /** @var array{enabled: bool, factors: array<string, float>} $config */
         $config = Config::get('toolkit.security.zero_trust', [
             'enabled' => true,
             'factors' => [
@@ -27,12 +28,12 @@ class TrustEngine
             ],
         ]);
 
-        if (! ($config['enabled'] ?? true)) {
+        if (! $config['enabled']) {
             return 1.0;
         }
 
         $score = 1.0;
-        $factors = $config['factors'] ?? [];
+        $factors = $config['factors'];
 
         // 1. IP / Network Factor
         $ip = Request::ip();
@@ -46,8 +47,8 @@ class TrustEngine
         }
 
         // 3. User Identity / Device Factor
-        if ($user && method_exists($user, 'isRecognizedDevice')) {
-            if (! $user->isRecognizedDevice()) {
+        if (is_object($user) && method_exists($user, 'isRecognizedDevice')) {
+            if (! (bool) call_user_func([$user, 'isRecognizedDevice'])) {
                 $score += ($factors['unrecognized_device'] ?? -0.2);
             } else {
                 $score += ($factors['recognized_device'] ?? 0.1);
@@ -60,10 +61,10 @@ class TrustEngine
     /**
      * Determine if an IP is likely a VPN or proxy.
      *
-     * @param  string  $ip
+     * @param  string|null  $ip
      * @return bool
      */
-    protected function isVpn($ip)
+    protected function isVpn(?string $ip): bool
     {
         // Placeholder for advanced detection logic (e.g., GeoIP/Proxy Check)
         return false;
@@ -74,7 +75,7 @@ class TrustEngine
      *
      * @return bool
      */
-    protected function isOutsideWorkingHours()
+    protected function isOutsideWorkingHours(): bool
     {
         $now = Carbon::now();
 

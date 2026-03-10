@@ -10,21 +10,27 @@ class CollectionMacros
     /**
      * Register the macros.
      */
-    public static function register()
+    public static function register(): void
     {
         if (Collection::hasMacro('toKebabCase')) {
             return;
         }
 
         Collection::macro('toKebabCase', function () {
+            /** @var Collection<int|string, mixed> $this */
             return $this->mapWithKeys(function ($value, $key) {
-                return [Str::kebab($key) => is_array($value) || $value instanceof Collection ? collect($value)->toKebabCase()->all() : $value];
+                $k = (string) $key;
+                /** @phpstan-ignore-next-line */
+                return [Str::kebab($k) => is_array($value) || $value instanceof Collection ? collect($value)->toKebabCase()->all() : $value];
             });
         });
 
         Collection::macro('toCamelCase', function () {
+            /** @var Collection<int|string, mixed> $this */
             return $this->mapWithKeys(function ($value, $key) {
-                return [Str::camel($key) => is_array($value) || $value instanceof Collection ? collect($value)->toCamelCase()->all() : $value];
+                $k = (string) $key;
+                /** @phpstan-ignore-next-line */
+                return [Str::camel($k) => is_array($value) || $value instanceof Collection ? collect($value)->toCamelCase()->all() : $value];
             });
         });
     }

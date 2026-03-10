@@ -17,7 +17,7 @@ trait HasTranslations
     /**
      * Get the translations' folder name.
      */
-    protected function getTranslationsFolderName()
+    protected function getTranslationsFolderName(): string
     {
         return 'translations';
     }
@@ -25,7 +25,7 @@ trait HasTranslations
     /**
      * Get the translations' path.
      */
-    protected function getTranslationsPath()
+    protected function getTranslationsPath(): string
     {
         return $this->getBasePath().DIRECTORY_SEPARATOR.$this->getTranslationsFolderName();
     }
@@ -33,7 +33,7 @@ trait HasTranslations
     /**
      * Get the destination views path.
      */
-    protected function getTranslationsDestinationPath()
+    protected function getTranslationsDestinationPath(): string
     {
         return $this->app->langPath(
             'vendor'.DIRECTORY_SEPARATOR.$this->getPackageName()
@@ -43,7 +43,7 @@ trait HasTranslations
     /**
      * Publish the translations.
      */
-    protected function publishTranslations($path = null)
+    protected function publishTranslations(?string $path = null): void
     {
         $this->publishes([
             $this->getTranslationsPath() => $path ?: $this->getTranslationsDestinationPath(),
@@ -53,7 +53,7 @@ trait HasTranslations
     /**
      * Load the translations files.
      */
-    protected function loadTranslations()
+    protected function loadTranslations(): void
     {
         $packagePath = $this->getTranslationsPath();
         $vendorPath = $this->getTranslationsDestinationPath();

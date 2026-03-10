@@ -16,8 +16,10 @@ trait InteractsWithApplication
 
     /**
      * Register multiple service providers.
+     *
+     * @param  array<int, class-string<\Illuminate\Support\ServiceProvider>|\Illuminate\Support\ServiceProvider>  $providers
      */
-    protected function registerProviders(array $providers)
+    protected function registerProviders(array $providers): void
     {
         foreach ($providers as $provider) {
             $this->registerProvider($provider);
@@ -27,11 +29,11 @@ trait InteractsWithApplication
     /**
      * Register a service provider.
      *
-     * @param  \Illuminate\Support\ServiceProvider|string  $provider
+     * @param  \Illuminate\Support\ServiceProvider|class-string<\Illuminate\Support\ServiceProvider>  $provider
      * @param  bool  $force
      * @return \Illuminate\Support\ServiceProvider
      */
-    protected function registerProvider($provider, $force = false)
+    protected function registerProvider($provider, bool $force = false): \Illuminate\Support\ServiceProvider
     {
         return $this->app->register($provider, $force);
     }
@@ -39,11 +41,11 @@ trait InteractsWithApplication
     /**
      * Register a console service provider.
      *
-     * @param  \Illuminate\Support\ServiceProvider|string  $provider
+     * @param  \Illuminate\Support\ServiceProvider|class-string<\Illuminate\Support\ServiceProvider>  $provider
      * @param  bool  $force
      * @return \Illuminate\Support\ServiceProvider|null
      */
-    protected function registerConsoleServiceProvider($provider, $force = false)
+    protected function registerConsoleServiceProvider($provider, bool $force = false): ?\Illuminate\Support\ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             return $this->registerProvider($provider, $force);
@@ -54,8 +56,10 @@ trait InteractsWithApplication
 
     /**
      * Register the package's custom Artisan commands when running in console.
+     *
+     * @param  array<int, class-string<\Illuminate\Console\Command>|string>  $commands
      */
-    protected function registerCommands(array $commands)
+    protected function registerCommands(array $commands): void
     {
         if ($this->app->runningInConsole()) {
             $this->commands($commands);
@@ -69,7 +73,7 @@ trait InteractsWithApplication
      * @param  \Closure|string|null  $concrete
      * @param  bool  $shared
      */
-    protected function bind($abstract, $concrete = null, $shared = false)
+    protected function bind(string $abstract, $concrete = null, bool $shared = false): void
     {
         $this->app->bind($abstract, $concrete, $shared);
     }
@@ -77,10 +81,10 @@ trait InteractsWithApplication
     /**
      * Register a shared binding in the container.
      *
-     * @param  string|array  $abstract
+     * @param  string  $abstract
      * @param  \Closure|string|null  $concrete
      */
-    protected function singleton($abstract, $concrete = null)
+    protected function singleton(string $abstract, $concrete = null): void
     {
         $this->app->singleton($abstract, $concrete);
     }

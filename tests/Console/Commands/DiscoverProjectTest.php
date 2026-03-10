@@ -3,8 +3,8 @@
 namespace Skywalker\Support\Tests\Console\Commands;
 
 use Illuminate\Support\Facades\File;
-use Skywalker\Support\ToolkitServiceProvider;
 use Skywalker\Support\Tests\TestCase;
+use Skywalker\Support\ToolkitServiceProvider;
 
 class DiscoverProjectTest extends TestCase
 {
@@ -18,7 +18,7 @@ class DiscoverProjectTest extends TestCase
     public function test_it_can_generate_project_map(): void
     {
         $outputPath = 'test-map.json';
-        
+
         if (File::exists(base_path($outputPath))) {
             File::delete(base_path($outputPath));
         }
@@ -29,13 +29,13 @@ class DiscoverProjectTest extends TestCase
             ->assertExitCode(0);
 
         $this->assertTrue(File::exists(base_path($outputPath)));
-        
+
         $content = json_decode(File::get(base_path($outputPath)), true);
         $this->assertArrayHasKey('routes', $content);
         $this->assertArrayHasKey('models', $content);
         $this->assertArrayHasKey('actions', $content);
         $this->assertArrayHasKey('config', $content);
-        
+
         File::delete(base_path($outputPath));
     }
 }

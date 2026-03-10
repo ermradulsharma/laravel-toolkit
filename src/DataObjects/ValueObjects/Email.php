@@ -1,9 +1,9 @@
 <?php
 
-namespace Skywalker\Support\Data\ValueObjects;
+namespace Skywalker\Support\DataObjects\ValueObjects;
 
 use InvalidArgumentException;
-use Skywalker\Support\Data\ValueObject;
+use Skywalker\Support\Foundation\ValueObject;
 
 class Email extends ValueObject
 {
@@ -31,7 +31,7 @@ class Email extends ValueObject
     /**
      * Return string representation.
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->email;
     }

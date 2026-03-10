@@ -1,6 +1,6 @@
 <?php
 
-namespace Skywalker\Support\Data;
+namespace Skywalker\Support\Foundation;
 
 use JsonSerializable;
 
@@ -9,7 +9,7 @@ abstract class ValueObject implements JsonSerializable
     /**
      * Check equality with another Value Object.
      */
-    public function equals(ValueObject $object)
+    public function equals(ValueObject $object): bool
     {
         if (get_class($this) !== get_class($object)) {
             return false;
@@ -21,7 +21,7 @@ abstract class ValueObject implements JsonSerializable
     /**
      * Return string representation.
      */
-    abstract public function __toString();
+    abstract public function __toString(): string;
 
     /**
      * Serialize to JSON.

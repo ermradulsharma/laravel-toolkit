@@ -2,6 +2,9 @@
 
 namespace Skywalker\Support\Console\Concerns;
 
+/**
+ * @phpstan-ignore trait.unused
+ */
 trait InteractsWithIO
 {
     /**

@@ -6,6 +6,10 @@ namespace Skywalker\Support\Providers\Concerns;
  * Trait     HasViews
  *
  * @author   Skywalker <skywalker@example.com>
+ *
+ * @method string getBasePath()
+ * @method string getPackageName()
+ * @method array<int, string> getPublishedTags(string $tag)
  */
 trait HasViews
 {
@@ -17,7 +21,7 @@ trait HasViews
     /**
      * Get the base views path.
      */
-    protected function getViewsPath()
+    protected function getViewsPath(): string
     {
         return $this->getBasePath().DIRECTORY_SEPARATOR.'views';
     }
@@ -25,15 +29,19 @@ trait HasViews
     /**
      * Get the destination views path.
      */
-    protected function getViewsDestinationPath()
+    protected function getViewsDestinationPath(): string
     {
-        return $this->app['config']['view.paths'][0].DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.$this->getPackageName();
+        $viewPaths = config('view.paths', []);
+        /** @phpstan-ignore-next-line */
+        $baseResourcePath = is_array($viewPaths) && ! empty($viewPaths) ? strval(array_values($viewPaths)[0]) : resource_path('views');
+
+        return $baseResourcePath.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.$this->getPackageName();
     }
 
     /**
      * Publish the views.
      */
-    protected function publishViews($path = null)
+    protected function publishViews(?string $path = null): void
     {
         $this->publishes([
             $this->getViewsPath() => $path ?: $this->getViewsDestinationPath(),
@@ -43,7 +51,7 @@ trait HasViews
     /**
      * Load the views files.
      */
-    protected function loadViews()
+    protected function loadViews(): void
     {
         $this->loadViewsFrom($this->getViewsPath(), $this->getPackageName());
     }

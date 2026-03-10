@@ -20,7 +20,7 @@ abstract class Seeder extends IlluminateSeeder
     /**
      * Seeder collection.
      *
-     * @var array
+     * @var array<int, class-string<IlluminateSeeder>>
      */
     protected $seeds = [];
 
@@ -31,15 +31,17 @@ abstract class Seeder extends IlluminateSeeder
 
     /**
      * Run the database seeds.
+     *
+     * @return void
      */
     public function run()
     {
-        Eloquent::);
+        Eloquent::unguard();
 
         foreach ($this->seeds as $seed) {
             $this->call($seed);
         }
 
-        Eloquent::);
+        Eloquent::reguard();
     }
 }

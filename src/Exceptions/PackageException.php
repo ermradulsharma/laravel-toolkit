@@ -14,7 +14,10 @@ use Exception;
  */
 class PackageException extends Exception
 {
-    public static function unspecifiedName()
+    /**
+     * @return static
+     */
+    public static function unspecifiedName(): self
     {
         return new static('You must specify the vendor/package name.');
     }

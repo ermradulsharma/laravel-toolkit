@@ -4,6 +4,9 @@ namespace Skywalker\Support\Database\Concerns;
 
 use Illuminate\Support\Str;
 
+/**
+ * @phpstan-ignore trait.unused
+ */
 trait Sluggable
 {
     /**

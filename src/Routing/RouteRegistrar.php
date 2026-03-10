@@ -29,35 +29,59 @@ abstract class RouteRegistrar
         RegistersRouteClasses;
 
     /* -----------------------------------------------------------------
+     |  Properties
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * The router instance.
+     *
+     * @var \Illuminate\Contracts\Routing\Registrar
+     */
+    protected Registrar $router;
+
+    /* -----------------------------------------------------------------
+     |  Constructor
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Create a new RouteRegistrar instance.
+     *
+     * @param  \Illuminate\Contracts\Routing\Registrar  $router
+     * @return void
+     */
+    public function __construct(Registrar $router)
+    {
+        $this->router = $router;
+    }
+
+    /* -----------------------------------------------------------------
      |  Other Methods
      | -----------------------------------------------------------------
      */
 
     /**
-     * Pass dynamic methods onto the router instance.
+     * Handle dynamic method calls.
      *
      * @param  string  $method
-     * @param  array  $parameters
+     * @param  array<int, mixed>  $parameters
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters): mixed
     {
-        return $this->forwardCallToRouter(
-            app(Router::class),
-            $method,
-            $parameters
-        );
+        return $this->forwardCallToRouter($method, $parameters);
     }
 
     /**
-     * Pass dynamic methods onto the router instance.
+     * Forward the call to the router.
      *
      * @param  string  $method
-     * @param  array  $parameters
+     * @param  array<int, mixed>  $parameters
      * @return mixed
      */
-    protected function forwardCallToRouter(Registrar $router, $method, $parameters)
+    protected function forwardCallToRouter(string $method, array $parameters): mixed
     {
-        return $this->forwardCallTo($router, $method, $parameters);
+        return $this->router->{$method}(...$parameters);
     }
 }

@@ -33,17 +33,19 @@ abstract class PrefixedModel extends Model
      *
      * @return string
      */
-    public function getTable()
+    public function getTable(): string
     {
         return $this->getPrefix().parent::getTable();
     }
 
     /**
      * Get the prefix table associated with the model.
+     *
+     * @return string
      */
-    public function getPrefix()
+    public function getPrefix(): string
     {
-        return $this->isPrefixed() ? $this->prefix : '';
+        return $this->isPrefixed() ? (string) $this->prefix : '';
     }
 
     /**
@@ -66,8 +68,10 @@ abstract class PrefixedModel extends Model
 
     /**
      * Check if table is prefixed.
+     *
+     * @return bool
      */
-    public function isPrefixed()
+    public function isPrefixed(): bool
     {
         return ! is_null($this->prefix);
     }

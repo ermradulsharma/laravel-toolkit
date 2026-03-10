@@ -7,14 +7,14 @@ use Illuminate\Support\Str;
 use ReflectionClass;
 use Skywalker\Support\Exceptions\PackageException;
 use Skywalker\Support\Http\BladeDirectives;
+use Skywalker\Support\Macros\CollectionMacros;
+use Skywalker\Support\Macros\StringMacros;
 use Skywalker\Support\Providers\Concerns\HasAssets;
 use Skywalker\Support\Providers\Concerns\HasConfig;
 use Skywalker\Support\Providers\Concerns\HasFactories;
 use Skywalker\Support\Providers\Concerns\HasMigrations;
 use Skywalker\Support\Providers\Concerns\HasTranslations;
 use Skywalker\Support\Providers\Concerns\HasViews;
-use Skywalker\Support\Macros\CollectionMacros;
-use Skywalker\Support\Macros\StringMacros;
 
 /**
  * Class     PackageServiceProvider
@@ -57,7 +57,7 @@ abstract class PackageServiceProvider extends ServiceProvider
     /**
      * Package base path.
      *
-     * @var string
+     * @var string|null
      */
     protected $basePath;
 
@@ -83,10 +83,10 @@ abstract class PackageServiceProvider extends ServiceProvider
      *
      * @return string
      */
-    protected function resolveBasePath()
+    protected function resolveBasePath(): string
     {
         return dirname(
-            (new ReflectionClass($this))->getFileName(),
+            (string) (new ReflectionClass($this))->getFileName(),
             2
         );
     }
@@ -101,15 +101,15 @@ abstract class PackageServiceProvider extends ServiceProvider
      *
      * @return string
      */
-    public function getBasePath()
+    public function getBasePath(): string
     {
-        return $this->basePath;
+        return (string) $this->basePath;
     }
 
     /**
      * Get the vendor name.
      */
-    protected function getVendorName()
+    protected function getVendorName(): string
     {
         return $this->vendor;
     }
@@ -117,7 +117,7 @@ abstract class PackageServiceProvider extends ServiceProvider
     /**
      * Get the package name.
      */
-    protected function getPackageName()
+    protected function getPackageName(): ?string
     {
         return $this->package;
     }
@@ -130,7 +130,7 @@ abstract class PackageServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
         parent::register();
 
@@ -149,7 +149,7 @@ abstract class PackageServiceProvider extends ServiceProvider
     /**
      * Boot the service provider.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerBladeDirectives();
     }
@@ -162,7 +162,7 @@ abstract class PackageServiceProvider extends ServiceProvider
     /**
      * Publish all the package files.
      */
-    protected function publishAll()
+    protected function publishAll(): void
     {
         $this->publishAssets();
         $this->publishConfig();
@@ -182,7 +182,7 @@ abstract class PackageServiceProvider extends ServiceProvider
      *
      * @throws \Skywalker\Support\Exceptions\PackageException
      */
-    protected function checkPackageName()
+    protected function checkPackageName(): void
     {
         if (empty($this->getVendorName()) || empty($this->getPackageName())) {
             throw PackageException::unspecifiedName();
@@ -196,10 +196,13 @@ abstract class PackageServiceProvider extends ServiceProvider
 
     /**
      * Get the published tags.
+     *
+     * @param  string  $tag
+     * @return array<int, string>
      */
-    protected function getPublishedTags($tag)
+    protected function getPublishedTags($tag): array
     {
-        $package = $this->getPackageName();
+        $package = (string) $this->getPackageName();
 
         return array_map(function ($name) {
             return Str::slug($name);
@@ -209,7 +212,7 @@ abstract class PackageServiceProvider extends ServiceProvider
     /**
      * Register the package macros.
      */
-    protected function registerMacros()
+    protected function registerMacros(): void
     {
         CollectionMacros::register();
         StringMacros::register();
@@ -218,7 +221,7 @@ abstract class PackageServiceProvider extends ServiceProvider
     /**
      * Register the package blade directives.
      */
-    protected function registerBladeDirectives()
+    protected function registerBladeDirectives(): void
     {
         BladeDirectives::register();
     }

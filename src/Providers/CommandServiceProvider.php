@@ -17,7 +17,7 @@ abstract class CommandServiceProvider extends ServiceProvider
     /**
      * The commands to be registered.
      *
-     * @var array
+     * @var array<int, class-string>
      */
     protected $commands = [];
 
@@ -36,7 +36,7 @@ abstract class CommandServiceProvider extends ServiceProvider
     /**
      * Boot the service provider.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->commands($this->commands);
     }
@@ -44,9 +44,9 @@ abstract class CommandServiceProvider extends ServiceProvider
     /**
      * Get the provided commands.
      *
-     * @return array
+     * @return array<int, class-string>
      */
-    public function provides()
+    public function provides(): array
     {
         return $this->commands;
     }

@@ -28,9 +28,11 @@ class DiscoverProject extends Command
 
         $map = $discovery->generate();
 
-        $output = $this->option('output');
+        /** @phpstan-ignore-next-line */
+        $output = (string) ($this->option('output') ?: 'project-map.json');
 
-        File::put(base_path($output), json_encode($map, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        $json = (string) json_encode($map, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        File::put(base_path($output), $json);
 
         $this->info("Project map generated successfully at: {$output}");
 

@@ -16,24 +16,30 @@ trait RegistersRouteClasses
 
     /**
      * Map route classes.
+     *
+     * @param  iterable<int|string, string|object>  $routes
      */
-    protected static function mapRouteClasses(iterable $routes)
+    protected static function mapRouteClasses(iterable $routes): void
     {
         foreach ($routes as $route) {
-            if (method_exists($route, 'map')) {
-                app()->call("{$route}@map");
+            $routeString = is_object($route) ? get_class($route) : (string) $route;
+            if (method_exists($routeString, 'map')) {
+                app()->call("{$routeString}@map");
             }
         }
     }
 
     /**
      * Bind route classes.
+     *
+     * @param  iterable<int|string, string|object>  $routes
      */
-    protected static function bindRouteClasses(iterable $routes)
+    protected static function bindRouteClasses(iterable $routes): void
     {
         foreach ($routes as $route) {
-            if (method_exists($route, 'bindings')) {
-                app()->call("{$route}@bindings");
+            $routeString = is_object($route) ? get_class($route) : (string) $route;
+            if (method_exists($routeString, 'bindings')) {
+                app()->call("{$routeString}@bindings");
             }
         }
     }

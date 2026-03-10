@@ -21,11 +21,12 @@ abstract class AuthorizationServiceProvider extends AuthServiceProvider
      * Define policies.
      *
      * @param  string  $class
+     * @param  array<string, string>  $policies
      */
-    protected function defineMany($class, array $policies)
+    protected function defineMany($class, array $policies): void
     {
         foreach ($policies as $ability => $method) {
-            Gate::$ability, "$class@$method");
+            Gate::define($ability, "$class@$method");
         }
     }
 }

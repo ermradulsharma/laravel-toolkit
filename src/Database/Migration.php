@@ -39,11 +39,13 @@ abstract class Migration extends IlluminateMigration
 
     /**
      * Get a schema builder instance for the connection.
+     *
+     * @return \Illuminate\Database\Schema\Builder
      */
-    protected function getSchemaBuilder()
+    protected function getSchemaBuilder(): Builder
     {
         /** @var \Illuminate\Database\DatabaseManager $db */
-        $db = app()->make('db');
+        $db = resolve('db');
 
         return $db->connection($this->hasConnection() ? $this->getConnection() : null)
             ->getSchemaBuilder();
@@ -55,7 +57,7 @@ abstract class Migration extends IlluminateMigration
      * @param  string  $connection
      * @return $this
      */
-    public function setConnection($connection)
+    public function setConnection($connection): self
     {
         $this->connection = $connection;
 
@@ -65,9 +67,9 @@ abstract class Migration extends IlluminateMigration
     /**
      * Get the prefixed table name.
      *
-     * @return string
+     * @return string|null
      */
-    public function getTableName()
+    public function getTableName(): ?string
     {
         return $this->hasPrefix()
             ? $this->prefix.$this->table
@@ -80,7 +82,7 @@ abstract class Migration extends IlluminateMigration
      * @param  string  $table
      * @return $this
      */
-    public function setTable($table)
+    public function setTable($table): self
     {
         $this->table = $table;
 
@@ -93,7 +95,7 @@ abstract class Migration extends IlluminateMigration
      * @param  string  $prefix
      * @return $this
      */
-    public function setPrefix($prefix)
+    public function setPrefix($prefix): self
     {
         $this->prefix = $prefix;
 
@@ -108,30 +110,30 @@ abstract class Migration extends IlluminateMigration
     /**
      * Migrate to database.
      */
-    abstract public function up();
+    abstract public function up(): void;
 
     /**
      * Rollback the migration.
      */
-    public function down()
+    public function down(): void
     {
-        $this->getSchemaBuilder()->dropIfExists($this->getTableName());
+        $this->getSchemaBuilder()->dropIfExists((string) $this->getTableName());
     }
 
     /**
      * Create Table Schema.
      */
-    protected function createSchema(Closure $blueprint)
+    protected function createSchema(Closure $blueprint): void
     {
-        $this->getSchemaBuilder()->create($this->getTableName(), $blueprint);
+        $this->getSchemaBuilder()->create((string) $this->getTableName(), $blueprint);
     }
 
     /**
      * Modify a table on the schema.
      */
-    protected function table(Closure $callback)
+    protected function table(Closure $callback): void
     {
-        $this->getSchemaBuilder()->table($this->getTableName(), $callback);
+        $this->getSchemaBuilder()->table((string) $this->getTableName(), $callback);
     }
 
     /* -----------------------------------------------------------------
@@ -142,15 +144,25 @@ abstract class Migration extends IlluminateMigration
     /**
      * Check if connection exists.
      */
-    protected function hasConnection()
+    protected function hasConnection(): bool
     {
         return $this->isNotEmpty($this->getConnection());
     }
 
     /**
+     * Get the table prefix.
+     *
+     * @return string
+     */
+    public function getPrefix(): ?string
+    {
+        return $this->prefix;
+    }
+
+    /**
      * Check if table has prefix.
      */
-    protected function hasPrefix()
+    protected function hasPrefix(): bool
     {
         return $this->isNotEmpty($this->prefix);
     }
@@ -160,7 +172,7 @@ abstract class Migration extends IlluminateMigration
      *
      * @param  string|null  $value
      */
-    private function isNotEmpty($value)
+    private function isNotEmpty($value): bool
     {
         return ! (is_null($value) || empty($value));
     }

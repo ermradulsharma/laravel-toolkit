@@ -31,7 +31,7 @@ class Stub
     /**
      * The replacements array.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $replaces = [];
 
@@ -44,7 +44,7 @@ class Stub
      * Create a new instance.
      *
      * @param  string  $path
-     * @param  array   $replaces
+     * @param  array<string, string>  $replaces
      */
     public function __construct($path, array $replaces = [])
     {
@@ -100,8 +100,9 @@ class Stub
      * Set base path.
      *
      * @param  string  $path
+     * @return void
      */
-    public static function setBasePath($path)
+    public static function setBasePath($path): void
     {
         static::$basePath = $path;
     }
@@ -109,7 +110,7 @@ class Stub
     /**
      * Get replacements.
      *
-     * @return array
+     * @return array<string, string>
      */
     public function getReplaces()
     {
@@ -119,7 +120,7 @@ class Stub
     /**
      * Set replacements array.
      *
-     * @param  array  $replaces
+     * @param  array<string, string>  $replaces
      * @return $this
      */
     public function setReplaces(array $replaces = [])
@@ -132,7 +133,7 @@ class Stub
     /**
      * Set replacements array.
      *
-     * @param  array  $replaces
+     * @param  array<string, string>  $replaces
      * @return $this
      */
     public function replaces(array $replaces = [])
@@ -149,8 +150,8 @@ class Stub
      * Create new self instance.
      *
      * @param  string  $path
-     * @param  array   $replaces
-     * @return $this
+     * @param  array<string, string>  $replaces
+     * @return static
      */
     public static function create($path, array $replaces = [])
     {
@@ -161,14 +162,15 @@ class Stub
      * Create new self instance from full path.
      *
      * @param  string  $path
-     * @param  array   $replaces
-     * @return $this
+     * @param  array<string, string>  $replaces
+     * @return static
      */
     public static function createFromPath($path, array $replaces = [])
     {
         $stub = new static($path, $replaces);
-        
+
         return tap($stub, function ($instance) {
+            /** @var static $instance */
             $instance->setBasePath('');
         });
     }
@@ -197,13 +199,15 @@ class Stub
     /**
      * Save stub to specific path.
      *
-     * @param  string  $path
+     * @param  string|null  $path
      * @param  string  $filename
      * @return bool
      */
     public function saveTo($path, $filename)
     {
-        return file_put_contents($path.DIRECTORY_SEPARATOR.$filename, $this->render()) !== false;
+        $base = $path ?: '';
+
+        return file_put_contents($base.DIRECTORY_SEPARATOR.$filename, $this->render()) !== false;
     }
 
     /**
@@ -213,10 +217,10 @@ class Stub
      */
     public function getContents()
     {
-        $contents = file_get_contents($this->getPath());
+        $contents = (string) @file_get_contents($this->getPath());
 
         foreach ($this->getReplaces() as $search => $replace) {
-            $contents = str_replace('$'.strtoupper($search).'$', $replace, $contents);
+            $contents = str_replace('$'.strtoupper((string) $search).'$', (string) $replace, $contents);
         }
 
         return $contents;

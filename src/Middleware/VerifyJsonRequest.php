@@ -22,7 +22,7 @@ class VerifyJsonRequest
     /**
      * Supported request method verbs.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
@@ -35,7 +35,8 @@ class VerifyJsonRequest
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  string|array|null  $methods
+     * @param  \Closure  $next
+     * @param  string|array<int, string>|null  $methods
      * @return mixed
      */
     public function handle(Request $request, Closure $next, $methods = null)
@@ -56,14 +57,14 @@ class VerifyJsonRequest
      * Validate json Request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  string|array|null  $methods
+     * @param  string|array<int, string>|null  $methods
      * @return bool
      */
-    protected function isJsonRequestValid(Request $request, $methods)
+    protected function isJsonRequestValid(Request $request, $methods): bool
     {
-        $methods = $this->getMethods($methods);
+        $methodsArray = $this->getMethods($methods);
 
-        if (! in_array($request->method(), $methods)) {
+        if (! in_array($request->method(), $methodsArray)) {
             return false;
         }
 
@@ -80,7 +81,7 @@ class VerifyJsonRequest
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function jsonErrorResponse()
+    protected function jsonErrorResponse(): JsonResponse
     {
         $data = [
             'status' => 'error',
@@ -94,16 +95,20 @@ class VerifyJsonRequest
     /**
      * Get request methods.
      *
-     * @param  string|array|null  $methods
+     * @param  string|array<int, string>|null  $methods
+     * @return array<int, string>
      */
-    protected function getMethods($methods)
+    protected function getMethods($methods = null): array
     {
-        $methods = $methods ?? $this->methods;
+        $resolvedMethods = $methods ?? $this->methods;
 
-        if (is_string($methods)) {
-            $methods = (array) $methods;
+        if (is_string($resolvedMethods)) {
+            $resolvedMethods = [$resolvedMethods];
         }
 
-        return is_array($methods) ? array_map('strtoupper', $methods) : [];
+        /** @var array<int, string> $resolvedMethods */
+        return array_map(function ($method) {
+            return strtoupper((string) $method);
+        }, $resolvedMethods);
     }
 }

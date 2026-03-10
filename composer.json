@@ -8,12 +8,14 @@
         "toolkit",
         "package-development",
         "helpers",
-        "mradul"
+        "mradul",
+        "skywalker"
     ],
     "homepage": "https://github.com/skywalker-labs/toolkit",
     "support": {
         "issues": "https://github.com/skywalker-labs/toolkit/issues",
-        "source": "https://github.com/skywalker-labs/toolkit"
+        "source": "https://github.com/skywalker-labs/toolkit",
+        "docs": "https://github.com/skywalker-labs/toolkit#readme"
     },
     "funding": [
         {
@@ -36,7 +38,7 @@
         }
     ],
     "require": {
-        "php": "^7.0|^8.0|^9.0",
+        "php": "^7.4|^8.0|^9.0",
         "illuminate/cache": "^5.5|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
         "illuminate/console": "^5.5|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
         "illuminate/contracts": "^5.5|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
@@ -51,7 +53,7 @@
         "laravel/pint": "^1.27",
         "orchestra/testbench": "^3.5|^4.0|^5.0|^6.0|^7.0|^8.0|^9.0|^10.0",
         "phpstan/phpstan": "^2.1",
-        "phpunit/phpunit": "^7.0|^8.0|^9.0|^10.0|^11.0|^12.0"
+        "phpunit/phpunit": "^9.6|^10.0|^11.0|^12.0"
     },
     "autoload": {
         "psr-4": {
@@ -66,16 +68,26 @@
             "Skywalker\\Support\\Tests\\": "tests/"
         }
     },
-    "scripts": {
-        "test": "phpunit --colors=always",
-        "test:dox": "phpunit --testdox --colors=always",
-        "test:cov": "phpunit --coverage-html coverage",
-        "lint": "pint --test",
-        "lint:fix": "pint",
-        "analyze": "phpstan analyse --memory-limit=2G"
-    },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php -r \"if (file_exists('vendor/autoload.php')) require 'vendor/autoload.php';\""
+        ],
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover coverage-clover.xml",
+        "lint": "pint --test",
+        "lint-fix": "pint",
+        "analyze": "phpstan analyse --memory-limit=2G",
+        "all": [
+            "@analyze",
+            "@test",
+            "@lint"
+        ]
     },
     "extra": {
         "laravel": {

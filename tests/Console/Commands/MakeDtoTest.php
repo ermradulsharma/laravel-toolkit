@@ -47,7 +47,7 @@ class MakeDtoTest extends TestCase
             ->expectsOutput('DTO [App\Support\Dtos\CustomDto] created successfully.')
             ->assertExitCode(0);
 
-        $this->assertTrue(File::exists(base_path('App/Support/Dtos/CustomDto.php')));
+        $this->assertTrue(File::exists(app_path('Support/Dtos/CustomDto.php')));
     }
 
     public function test_it_does_not_overwrite_existing_dto_without_force(): void

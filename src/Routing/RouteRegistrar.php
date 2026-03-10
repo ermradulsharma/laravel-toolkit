@@ -68,7 +68,7 @@ abstract class RouteRegistrar
      * @param  array<int, mixed>  $parameters
      * @return mixed
      */
-    public function __call(string $method, array $parameters): mixed
+    public function __call(string $method, array $parameters)
     {
         return $this->forwardCallToRouter($method, $parameters);
     }
@@ -80,7 +80,7 @@ abstract class RouteRegistrar
      * @param  array<int, mixed>  $parameters
      * @return mixed
      */
-    protected function forwardCallToRouter(string $method, array $parameters): mixed
+    protected function forwardCallToRouter(string $method, array $parameters)
     {
         return $this->router->{$method}(...$parameters);
     }

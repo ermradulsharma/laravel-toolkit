@@ -76,13 +76,23 @@ abstract class Dto implements Arrayable
             $typeName = ($type instanceof \ReflectionNamedType) ? $type->getName() : 'string';
 
             // Basic mapping of PHP types to JSON schema types
-            $jsonType = match ($typeName) {
-                'int' => 'integer',
-                'bool' => 'boolean',
-                'array' => 'array',
-                'float' => 'number',
-                default => 'string',
-            };
+            switch ($typeName) {
+                case 'int':
+                    $jsonType = 'integer';
+                    break;
+                case 'bool':
+                    $jsonType = 'boolean';
+                    break;
+                case 'array':
+                    $jsonType = 'array';
+                    break;
+                case 'float':
+                    $jsonType = 'number';
+                    break;
+                default:
+                    $jsonType = 'string';
+                    break;
+            }
 
             $schema['properties'][$property->getName()] = [
                 'type' => $jsonType,

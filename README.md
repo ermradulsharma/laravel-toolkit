@@ -4,7 +4,7 @@
 ### *The Universal Architectural Foundation for Elite Laravel Engineering*
 
 [![Latest Version](https://img.shields.io/badge/version-1.5.0-darkgray.svg?style=for-the-badge)](https://packagist.org/packages/skywalker-labs/toolkit)
-[![Laravel Version](https://img.shields.io/badge/Laravel-5.5_--_12.x-red.svg?style=for-the-badge)](https://laravel.com)
+[![Laravel Version](https://img.shields.io/badge/Laravel-6.x_--_12.x-red.svg?style=for-the-badge)](https://laravel.com)
 [![PHP Version](https://img.shields.io/badge/PHP-7.4_--_9.0-777bb4.svg?style=for-the-badge)](https://php.net)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/skywalker-labs/toolkit/tests.yml?branch=main&style=for-the-badge)](https://github.com/skywalker-labs/toolkit/actions)
 [![Pattern](https://img.shields.io/badge/Pattern-Clean_Architecture-blue.svg?style=for-the-badge)](https://github.com/skywalker-labs/toolkit)
@@ -20,7 +20,7 @@
 
 The Toolkit is engineered to be a drop-in foundation that *just works*. No strict type conflicts, no version lock-ins.
 * **PHP Support:** `^7.0 | ^8.0 | ^9.0`
-* **Laravel Support:** `^5.5 | ^6.x | ^7.x | ^8.x | ^9.x | ^10.x | ^11.x | ^12.x`
+* **Laravel Support:** `^6.20.45 | ^7.x | ^8.x | ^9.x | ^10.x | ^11.x | ^12.x`
 
 ## 🏗️ The Core Pillars
 

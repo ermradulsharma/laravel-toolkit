@@ -36,7 +36,8 @@ The primary purpose of **Skywalker Toolkit** is to be an indestructible baseline
 
 **STRICT COMPATIBILITY GUIDELINES**:
 - Target **PHP 7.4+** for core maturity (allows for scalar typing and return types).
-- Maintain support for Laravel `^5.5` through `^12.x`.
+- Maintain support for Laravel **^6.20.45** through **^12.x**.
+- **Dropped Laravel 5.5** due to permanent unpatchable security vulnerabilities (CVE-2024-52301).
 - **PHPStan Level 9** is the mandatory baseline for all new components.
 - Do **not** use match expressions, named arguments, or property promotion if you aim for PHP < 8.0 support.
 

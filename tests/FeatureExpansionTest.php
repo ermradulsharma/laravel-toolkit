@@ -7,11 +7,11 @@ namespace Skywalker\Support\Tests;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Orchestra\Testbench\TestCase;
 use Skywalker\Support\DataObjects\ValueObjects\Email;
 use Skywalker\Support\Database\Concerns\HasUuid;
 use Skywalker\Support\Database\Concerns\Sluggable;
 use Skywalker\Support\Database\Repository\BaseRepository;
+use Skywalker\Support\Tests\TestCase;
 
 class FeatureExpansionTest extends TestCase
 {

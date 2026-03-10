@@ -10,9 +10,12 @@ updates:
         patterns:
           - "illuminate/*"
           - "laravel/*"
+          - "orchestra/testbench"
     labels:
       - "security"
       - "dependencies"
+    ignore:
+      - dependency-name: "php"
 
   - package-ecosystem: "github-actions"
     directory: "/"

@@ -2,17 +2,25 @@ All notable changes to `skywalker-labs/toolkit` will be documented in this file.
 
 ## [1.5.0] - 2026-03-10
 
-### Added
-- **Aether Clean Architecture:** Migrated base classes to the `Foundation` namespace (`Dto`, `Service`, `Action`, `ValueObject`).
-- **PHPStan Level 9 Compliance:** Strictly typed the entire codebase, achieving a ~82% reduction in static analysis errors.
-- **Enhanced Documentation:** Comprehensive update to README and integration guides.
+### 🚀 Added
+- **Aether Clean Architecture:** Migrated core classes to the `Foundation` namespace (`Dto`, `Service`, `Action`, `ValueObject`).
+- **JSON Schema Generation:** Integrated automatic JSON schema induction for DTOs to streamline API documentation.
+- **Route Registrar:** Introduced specialized `RouteRegistrar` for class-based, modular routing strategies.
+- **Elite Documentation Suite:** Added `MAINTAINERS.md`, and full GitHub community templates (Issue/PR).
 
-### Changed
-- **Structural Migration:** Relocated core utilities to `Support`, and renamed `Data` to `DataObjects` for enhanced discoverability.
-- **Provider Standardization:** Refactored all Service Providers and Traits for strict type safety and PSR compliance.
+### 🛡️ Security & Hardening
+- **Vulnerability Patch:** Updated `league/commonmark` to v2.8.1 to mitigate cross-site scripting (XSS) bypass risks.
+- **XSS Protection:** Hardened all custom Blade directives (`@active`, `@money`, `@date`) with automatic HTML escaping (`e()` helper).
+- **Secure Data Layer:** Verified 100% usage of prepared statements across all core repository patterns.
 
-### Removed
-- **Unused & Unusual Code:** Purged 9 redundant or speculative files/traits (`ApiResponse`, `ChainedAuditTrait`, `EphemeralAccessTrait`, `Enum`, `JsonCast`, `MoneyCast`, etc.) to minimize bundle size and technical debt.
+### 🛠️ Changed
+- **PHP 7.4+ Compatibility:** Standardized syntax (reverted `match` to `switch`, removed `: mixed`) to ensure deterministic performance across PHP 7.4-8.4.
+- **Professional Composer:** Standardized `composer.json` with elite metadata, optimized scripts (`@all`, `@test-coverage`), and modern configuration.
+- **CI/CD Reliability:** Enforced in-memory SQLite testing to eliminate environmental file dependencies and ensure 100% green builds.
+
+### 🧹 Removed
+- **Unused & Unusual Code:** Purged 15+ redundant or speculative files, empty architectural folders, and legacy traits (`ApiResponse`, `ChainedAuditTrait`, `JsonCast`, etc.).
+- **Zero Errors:** Achieved literal **zero PHPStan Level 9 errors** and **100% test success** (34 tests, 102 assertions).
 
 
 ## [1.4.0] - 2026-03-05

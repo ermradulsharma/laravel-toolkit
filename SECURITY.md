@@ -6,7 +6,7 @@ The Skywalker Toolkit is maintained with a highly stable API. We support the maj
 
 | Version | Supported          | Compatible PHP | Compatible Laravel Baseline      |
 | ------- | ------------------ | -------------- | -------------------------------- |
-| 1.x     | :white_check_mark: | 7.4 - 9.0      | 6.20+, 7.30+, 8.83+, 9.52+, 10.48+, 11.33+, 12.0+ |
+| 1.x     | :white_check_mark: | 7.4 - 9.0      | 6.20+, 7.30+, 8.83+, 9.52+, 10.48.29+, 11.44.1+, 12.1.1+ |
 
 ## Reporting a Vulnerability
 
